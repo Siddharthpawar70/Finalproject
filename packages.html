@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Curated Packages - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        /* Category Colors */
+        .tag.honeymoon {
+            background: #ff4d6d;
+        }
+
+        .tag.family {
+            background: #4cc9f0;
+        }
+
+        .tag.solo {
+            background: #7209b7;
+        }
+
+        .tag.wildlife {
+            background: #2b9348;
+        }
+
+        .tag.spiritual {
+            background: #f9c74f;
+            color: #333;
+        }
+
+        .tag.luxury {
+            background: #b79ced;
+        }
+
+        .tag.budget {
+            background: #52b788;
+        }
+
+        .tag.group {
+            background: #4361ee;
+        }
+
+        .tag.weekend {
+            background: #f72585;
+        }
+
+        .tag.cultural {
+            background: #fb5607;
+        }
+
+        .tag.educational {
+            background: #3a86ff;
+        }
+
+        .tag.corporate {
+            background: #003566;
+        }
+
+        .tag.cruise {
+            background: #00b4d8;
+        }
+
+        .tag.customized {
+            background: #3d5a80;
+        }
+
+        .package-item {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 4rem;
+            transition: transform 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .package-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 0 0 15px rgba(243, 156, 18, 0.2);
+            border-color: rgba(243, 156, 18, 0.3);
+        }
+
+        .package-item:hover .package-image-container img {
+            transform: scale(1.08);
+        }
+
+        .package-image-container {
+            position: relative;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .package-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .package-item .content {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .details-grid strong {
+            color: #022c43;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .details-grid ul {
+            padding-left: 1.2rem;
+            margin: 0;
+        }
+
+        .price-box {
+            background: #f8f9fa;
+            padding: 1.2rem;
+            border-radius: 12px;
+            border-left: 4px solid #0a3d62;
+            margin-top: auto;
+        }
+
+        .price-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0a3d62;
+            display: block;
+        }
+
+        .inclusion-exclusion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #ddd;
+            font-size: 0.85rem;
+        }
+
+        .inc {
+            color: #2d6a4f;
+        }
+
+        .exc {
+            color: #ae2012;
+        }
+
+        /* Search & Filter Enhancement */
+        .filter-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: sticky;
+            top: 90px;
+            z-index: 100;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3d5a80;
+            font-size: 1.2rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3.5rem;
+            border-radius: 50px;
+            border: 2px solid #eee;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #fdfdfd;
+        }
+
+        .search-container input:focus {
+            border-color: #3d5a80;
+            box-shadow: 0 0 15px rgba(61, 90, 128, 0.1);
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+
+        .filter-chip {
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            background: #fff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #666;
+            user-select: none;
+        }
+
+        .filter-chip:hover {
+            border-color: #3d5a80;
+            color: #3d5a80;
+            transform: translateY(-2px);
+        }
+
+        .filter-chip.active {
+            background: #3d5a80;
+            color: white;
+            border-color: #3d5a80;
+            box-shadow: 0 5px 15px rgba(61, 90, 128, 0.3);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem;
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            color: #3d5a80;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .package-item {
+                grid-template-columns: 1fr;
+            }
+            .package-image-container {
+                min-height: 250px;
+            }
+            .filter-section {
+                top: 70px;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Customization Form Styles */
+        .custom-plan-form {
+            display: none;
+            background: #fdfdfd;
+            border: 2px solid #3d5a80;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            color: #022c43;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .checkbox-group {
+            grid-column: span 2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background: #f0f4f8;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-build {
+            background: #3d5a80;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .btn-build:hover {
+            background: #2b3d50;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 1000px) {
+            .package-item {
+                grid-template-columns: 1fr;
+            }
+
+            .package-image-container {
+                min-height: 300px;
+            }
+
+            .details-grid,
+            .inclusion-exclusion,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header"
+        style="background: linear-gradient(rgba(2, 44, 67, 0.8), rgba(2, 44, 67, 0.8)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1935&auto=format&fit=crop'); background-size: cover; background-position: center; color: white; text-align: center; padding: 6rem 1rem;">
+        <div class="container">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Exclusive Travel Packages</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">14 Unique Travel Styles Curated for Your Perfect Escape</p>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 4rem;">
+
+        <!-- Advanced Filter & Search -->
+        <div class="filter-section">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="packageSearch" placeholder="Search by destination (e.g. Bora Bora, Dubai, Paris)...">
+            </div>
+            <div class="category-filters" id="categoryFilters">
+                <div class="filter-chip active" data-category="all">All Styles</div>
+                <div class="filter-chip" data-category="honeymoon">Honeymoon</div>
+                <div class="filter-chip" data-category="family">Family</div>
+                <div class="filter-chip" data-category="solo">Solo</div>
+                <div class="filter-chip" data-category="wildlife">Wildlife</div>
+                <div class="filter-chip" data-category="spiritual">Spiritual</div>
+                <div class="filter-chip" data-category="luxury">Luxury</div>
+                <div class="filter-chip" data-category="budget">Budget</div>
+                <div class="filter-chip" data-category="group">Group</div>
+                <div class="filter-chip" data-category="weekend">Weekend</div>
+                <div class="filter-chip" data-category="cultural">Cultural</div>
+                <div class="filter-chip" data-category="educational">Educational</div>
+                <div class="filter-chip" data-category="corporate">Corporate</div>
+                <div class="filter-chip" data-category="cruise">Cruise</div>
+            </div>
+        </div>
+
+        <div id="noResults" class="no-results">
+            <i class="fas fa-search-minus"></i>
+            <h3>No matching packages found</h3>
+            <p>Try searching for a different destination or category.</p>
+        </div>
+
+        <div id="packageList">
+
+        <!-- 1-5. HONEYMOON -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="images/packages/bora_bora.jpg" alt="Bora Bora"></div>
+            <div class="content"><span class="tag honeymoon">Honeymoon</span><h2>Bora Bora - Romantic Lagoon Escape</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> French Polynesia<ul><li>Day 1: Private Overwater Bungalow Check-in</li><li>Day 2: Lagoon Tour with Shark & Ray Feeding</li><li>Day 3: Sunset Dinner Cruise</li><li>Day 4: Helicopter Island Tour</li><li>Day 5: Spa & Couple's Massage</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Luxury Speedboat<br>Hotel: Four Seasons Resort</p><strong>Meals & Activities</strong><p>Meals: All Inclusive Gourmet<br>Activities: Snorkeling, Kayaking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Champagne, Spa.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 4,85,000 / Couple</span><a href="booking.html?dest=Bora Bora Honeymoon" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="images/packages/maldives.jpg" alt="Maldives"></div>
+            <div class="content"><span class="tag honeymoon">Honeymoon</span><h2>Maldives - Private Island Retreat</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Maldives<ul><li>Day 1: Seaplane Arrival</li><li>Day 2: Underwater Dining Experience</li><li>Day 3: Island Picnic</li><li>Day 4: Starlight Cinema night</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Seaplane<br>Hotel: Soneva Jani</p><strong>Meals & Activities</strong><p>Meals: Half-board<br>Activities: Diving, Spa</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Villa, Spa.</div><div class="exc">Exclusions: Visa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,45,000 / Couple</span><a href="booking.html?dest=Maldives Honeymoon" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="images/packages/santorini.jpg" alt="Santorini"></div>
+            <div class="content"><span class="tag honeymoon">Honeymoon</span><h2>Santorini - Caldera Sunset Special</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> Greece<ul><li>Day 1: Oia Village check-in</li><li>Day 2: Volcano & Hot Springs Tour</li><li>Day 3: Wine Tasting Experience</li><li>Day 4: Red Beach hike</li><li>Day 5: Boat to Mykonos</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Car<br>Hotel: Cave Suites</p><strong>Meals & Activities</strong><p>Meals: Breakfast only<br>Activities: Sightseeing, Photoshoot</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Local Wine, Car.</div><div class="exc">Exclusions: Ferry fees.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 3,10,000 / Couple</span><a href="booking.html?dest=Santorini Honeymoon" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="images/packages/venice.jpg" alt="Venice"></div>
+            <div class="content"><span class="tag honeymoon">Honeymoon</span><h2>Venice - Canal Grand Romance</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> Italy<ul><li>Day 1: Gondola Arrival</li><li>Day 2: Doge's Palace View</li><li>Day 3: Murano Glass Tour</li><li>Day 4: St. Mark's Square</li><li>Day 5: Farewell</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Water Taxi<br>Hotel: Hotel Danieli</p><strong>Meals & Activities</strong><p>Meals: Italian Dinner<br>Activities: Gondola Ride</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Private Boat.</div><div class="exc">Exclusions: City Taxis.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,95,000 / Couple</span><a href="booking.html?dest=Venice Honeymoon" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="images/packages/seychelles.jpg" alt="Seychelles"></div>
+            <div class="content"><span class="tag honeymoon">Honeymoon</span><h2>Seychelles - Pristine Beach Bliss</h2><div class="details-grid"><div><strong>Duration</strong> 8 Days / 7 Nights<strong>Destination</strong> Seychelles<ul><li>Day 1: Mahe Arrival</li><li>Day 2: Praslin Island Hopper</li><li>Day 3: Giant Tortoise Safari</li><li>Day 4: Jungle hike</li><li>Day 5: Victoria Market</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Ferry & Jeep<br>Hotel: Hilton Northolme</p><strong>Meals & Activities</strong><p>Meals: Breakfast Buffet<br>Activities: Snorkeling</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Island tax.</div><div class="exc">Exclusions: Lunch.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,75,000 / Couple</span><a href="booking.html?dest=Seychelles Honeymoon" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 6-10. FAMILY -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=600" alt="Disneyland"></div>
+            <div class="content"><span class="tag family">Family</span><h2>Disneyland Park - Magical Family Fun</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Paris<ul><li>Day 1: Theme Park Entry</li><li>Day 2: Parade & Fireworks</li><li>Day 3: Character Meet</li><li>Day 4: Marvel Campus</li><li>Day 5: Souvenir Shopping</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Disney Shuttle<br>Hotel: Marvel Hotel</p><strong>Meals & Activities</strong><p>Meals: Kid's Meals Inc.<br>Activities: Endless Rides</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Park Tickets.</div><div class="exc">Exclusions: Meal Vouchers.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,85,000 / Person</span><a href="booking.html?dest=Disneyland Family" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1543349689-9a4d426bee8e?q=80&w=600" alt="Eiffel Tower"></div>
+            <div class="content"><span class="tag family">Family</span><h2>Eiffel Tower - Paris Highlights</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> France<ul><li>Day 1: Seine River Cruise</li><li>Day 2: Eiffel Tower Climb</li><li>Day 3: Louvre Museum</li><li>Day 4: Notre Dame Path</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Van<br>Hotel: Pullman Paris</p><strong>Meals & Activities</strong><p>Meals: French Pastries<br>Activities: History Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Car, Guide.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,55,000 / Person</span><a href="booking.html?dest=Eiffel Tower Family" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=600" alt="London Eye"></div>
+            <div class="content"><span class="tag family">Family</span><h2>London Eye - Royal Heritage Tour</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> London<ul><li>Day 1: Arrival & Big Ben</li><li>Day 2: London Eye Flight</li><li>Day 3: Tower of London</li><li>Day 4: Buckingham Palace</li><li>Day 5: Hamleys Shop</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Double Decker Bus<br>Hotel: Savoy Hotel</p><strong>Meals & Activities</strong><p>Meals: English Breakfast<br>Activities: Sightseeing</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Oyster Card.</div><div class="exc">Exclusions: Dinner.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,72,000 / Person</span><a href="booking.html?dest=London Eye Family" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1516422266298-d4891d40b174?q=80&w=600" alt="Universal Studios"></div>
+            <div class="content"><span class="tag family">Family</span><h2>Universal Studios - Singapore Adventure</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Singapore<ul><li>Day 1: Arrival & Sentosa</li><li>Day 2: Theme Park Full Day</li><li>Day 3: Water Park Fun</li><li>Day 4: Night Safari</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Car<br>Hotel: Resorts World</p><strong>Meals & Activities</strong><p>Meals: Multi-cuisine<br>Activities: Movie Rides</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Express Pass.</div><div class="exc">Exclusions: Meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,45,000 / Person</span><a href="booking.html?dest=Universal Singapore Family" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1595180053272-a7d519283f5e?q=80&w=600" alt="Gardens by the Bay"></div>
+            <div class="content"><span class="tag family">Family</span><h2>Gardens by the Bay - Green Singapore</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> Singapore<ul><li>Day 1: Supertree Grove</li><li>Day 2: Cloud Forest Dome</li><li>Day 3: Marina Bay Sands</li><li>Day 4: Shopping</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local MRT<br>Hotel: Marina Bay Sands</p><strong>Meals & Activities</strong><p>Meals: Signature Dining<br>Activities: Nature Walk</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Entry Pass.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,68,000 / Person</span><a href="booking.html?dest=Gardens Family" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 11-15. SOLO -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1518548419970-58e3b40e950d?q=80&w=600" alt="Bali"></div>
+            <div class="content"><span class="tag solo">Solo</span><h2>Bali - Tropical Zen Journey</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> Indonesia<ul><li>Day 1: Ubud Retreat</li><li>Day 2: Yoga & Rice Fields</li><li>Day 3: Monkey Forest</li><li>Day 4: Beach Surfing</li><li>Day 5: Temple Visit</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Scooter Rental<br>Hotel: Eco-Resort Villa</p><strong>Meals & Activities</strong><p>Meals: Organic Health<br>Activities: Meditation</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Yoga, Scooter.</div><div class="exc">Exclusions: Parties.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 62,000 / Person</span><a href="booking.html?dest=Bali Solo" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1549111298-091f0e495fdb?q=80&w=600" alt="Bangkok"></div>
+            <div class="content"><span class="tag solo">Solo</span><h2>Bangkok - City Lights Adventure</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Thailand<ul><li>Day 1: Arrival & Tuk-Tuk</li><li>Day 2: Grand Palace Tour</li><li>Day 3: Floating Market</li><li>Day 4: Sky Bar View</li><li>Day 5: Shopping</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local Metro<br>Hotel: Social Hostel</p><strong>Meals & Activities</strong><p>Meals: Street Food Tours<br>Activities: Exploring</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Tour Guide.</div><div class="exc">Exclusions: Bar Tabs.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 38,000 / Person</span><a href="booking.html?dest=Bangkok Solo" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1540959733332-e9ab65ba61c0?q=80&w=600" alt="Tokyo"></div>
+            <div class="content"><span class="tag solo">Solo</span><h2>Tokyo - Urban Explorer</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Japan<ul><li>Day 1: Akihabara Tech</li><li>Day 2: Shibuya Crossing</li><li>Day 3: Imperial Palace</li><li>Day 4: Harajuku Style</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Suica Card<br>Hotel: Capsule & Pod</p><strong>Meals & Activities</strong><p>Meals: Ramen & Sushi<br>Activities: Gaming, Art</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Rail Pass.</div><div class="exc">Exclusions: Food.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 98,000 / Person</span><a href="booking.html?dest=Tokyo Solo" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1583997051654-af6caac09746?q=80&w=600" alt="Barcelona"></div>
+            <div class="content"><span class="tag solo">Solo</span><h2>Barcelona - Gaudi & Giggles</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> Spain<ul><li>Day 1: Las Ramblas Walk</li><li>Day 2: Sagrada Familia</li><li>Day 3: Park Guell</li><li>Day 4: Beach Day</li><li>Day 5: Tapas Crawl</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Bike Rental<br>Hotel: Artistic Hostel</p><strong>Meals & Activities</strong><p>Meals: Tapas Included<br>Activities: Architecture</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Museum Pass.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,15,000 / Person</span><a href="booking.html?dest=Barcelona Solo" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=600" alt="Amsterdam"></div>
+            <div class="content"><span class="tag solo">Solo</span><h2>Amsterdam - Canal Life</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Netherlands<ul><li>Day 1: Canal Cruise</li><li>Day 2: Van Gogh Museum</li><li>Day 3: Bike Around Town</li><li>Day 4: Flower Market</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Bicycle<br>Hotel: Trendy Hostel</p><strong>Meals & Activities</strong><p>Meals: Breakfast Only<br>Activities: Biking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Bike Rental.</div><div class="exc">Exclusions: Dinner.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 85,000 / Person</span><a href="booking.html?dest=Amsterdam Solo" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 16-20. WILDLIFE -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1516422266298-d4891d40b174?q=80&w=600" alt="Masai Mara"></div>
+            <div class="content"><span class="tag wildlife">Wildlife</span><h2>Masai Mara - Big Five Safari</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Kenya<ul><li>Day 1: Nairobi Arrival</li><li>Day 2: Morning Game Drive</li><li>Day 3: Balloon Safari</li><li>Day 4: Nature Walk</li><li>Day 5: Mara River</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: 4x4 Jeep<br>Hotel: Luxury Tents</p><strong>Meals & Activities</strong><p>Meals: All Inclusive<br>Activities: Safari</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Park Fees.</div><div class="exc">Exclusions: Tips.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,95,000 / Person</span><a href="booking.html?dest=Masai Mara Wildlife" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=600" alt="Serengeti"></div>
+            <div class="content"><span class="tag wildlife">Wildlife</span><h2>Serengeti - Endless Plains Tour</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> Tanzania<ul><li>Day 1: Arrival & Camp</li><li>Day 2: Great Migration</li><li>Day 3: Ngorongoro Crater</li><li>Day 4: Bird Watching</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Safari Cruiser<br>Hotel: Safari Lodge</p><strong>Meals & Activities</strong><p>Meals: Full Board<br>Activities: Game Viewing</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Guide, Fees.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,15,000 / Person</span><a href="booking.html?dest=Serengeti Wildlife" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1514059014991-f162917a3a48?q=80&w=600" alt="Kruger"></div>
+            <div class="content"><span class="tag wildlife">Wildlife</span><h2>Kruger - South African Wilds</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> South Africa<ul><li>Day 1: Johannesburg Transfer</li><li>Day 2: Sunrise Safari</li><li>Day 3: Bush Walk</li><li>Day 4: Night Safari</li><li>Day 5: Return</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Safari Van<br>Hotel: Bush Lodge</p><strong>Meals & Activities</strong><p>Meals: 3 Meals Daily<br>Activities: Tracking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Safaris.</div><div class="exc">Exclusions: Drinks.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,45,000 / Person</span><a href="booking.html?dest=Kruger Wildlife" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=600" alt="Amazon"></div>
+            <div class="content"><span class="tag wildlife">Wildlife</span><h2>Amazon Rainforest - Deep Jungle</h2><div class="details-grid"><div><strong>Duration</strong> 8 Days / 7 Nights<strong>Destination</strong> Brazil<ul><li>Day 1: Manaus Arrival</li><li>Day 2: Canoe Trip</li><li>Day 3: Jungle Trek</li><li>Day 4: Pink Dolphins</li><li>Day 5: Piranha Fishing</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: River Boat<br>Hotel: Eco Lodge</p><strong>Meals & Activities</strong><p>Meals: Local Cuisine<br>Activities: Exploration</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Gear, Guide.</div><div class="exc">Exclusions: Malaria Pills.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,30,000 / Person</span><a href="booking.html?dest=Amazon Wildlife" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600" alt="Yellowstone"></div>
+            <div class="content"><span class="tag wildlife">Wildlife</span><h2>Yellowstone - Geyser & Wilds</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> USA<ul><li>Day 1: Arrival & Geysers</li><li>Day 2: Lamar Valley Wildlife</li><li>Day 3: Canyon Views</li><li>Day 4: Hot Springs</li><li>Day 5: Hiking Day</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Rental SUV<br>Hotel: National Park Lodge</p><strong>Meals & Activities</strong><p>Meals: Camping Style<br>Activities: Photo Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Park Pass.</div><div class="exc">Exclusions: Meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,75,000 / Person</span><a href="booking.html?dest=Yellowstone Wildlife" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 21-25. SPIRITUAL -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1627814983802-9905d461066d?q=80&w=600" alt="Kashi"></div>
+            <div class="content"><span class="tag spiritual">Spiritual</span><h2>Kashi Vishwanath - Divine Varanasi</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> India<ul><li>Day 1: Ganga Aarti</li><li>Day 2: Temple Rituals</li><li>Day 3: Boat Ride</li><li>Day 4: Sarnath</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Car<br>Hotel: Heritage Hotel</p><strong>Meals & Activities</strong><p>Meals: Satvik Food<br>Activities: Rituals</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: VIP Darshan.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 25,000 / Person</span><a href="booking.html?dest=Kashi Spiritual" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?q=80&w=600" alt="Golden Temple"></div>
+            <div class="content"><span class="tag spiritual">Spiritual</span><h2>Golden Temple - Blissful Amritsar</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Palki Sahib Ceremony</li><li>Day 2: Wagah Border</li><li>Day 3: Jallianwala Bagh</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local Auto & Car<br>Hotel: 4 Star Stay</p><strong>Meals & Activities</strong><p>Meals: Langar & Local<br>Activities: Prayers</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Guide.</div><div class="exc">Exclusions: Meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 15,000 / Person</span><a href="booking.html?dest=Golden Temple Spiritual" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=600" alt="Mecca"></div>
+            <div class="content"><span class="tag spiritual">Spiritual</span><h2>Mecca - Sacred Umrah Journey</h2><div class="details-grid"><div><strong>Duration</strong> 10 Days / 9 Nights<strong>Destination</strong> Saudi Arabia<ul><li>Day 1: Jeddah Arrival</li><li>Day 2: Haram Rites</li><li>Day 3: Madinah Visit</li><li>Day 4: Mount Uhud</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Group Coach<br>Hotel: 5 Star Near Haram</p><strong>Meals & Activities</strong><p>Meals: Full Board<br>Activities: Umrah Pass</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Visa, Support.</div><div class="exc">Exclusions: Qurbani.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,80,000 / Person</span><a href="booking.html?dest=Mecca Spiritual" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1552353617-3bfd679b3bdd?q=80&w=600" alt="Vatican City"></div>
+            <div class="content"><span class="tag spiritual">Spiritual</span><h2>Vatican City - Faith & History</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> Vatican<ul><li>Day 1: St. Peter's Basilica</li><li>Day 2: Vatican Museums</li><li>Day 3: Papal Audience</li><li>Day 4: Ancient Rome</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Bus & Metro<br>Hotel: Boutique Stay</p><strong>Meals & Activities</strong><p>Meals: Italian Breakfast<br>Activities: Art Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Museum Pass.</div><div class="exc">Exclusions: Flight.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,35,000 / Person</span><a href="booking.html?dest=Vatican Spiritual" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?q=80&w=600" alt="Bodh Gaya"></div>
+            <div class="content"><span class="tag spiritual">Spiritual</span><h2>Bodh Gaya - Enlightenment Path</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> India<ul><li>Day 1: Mahabodhi Temple</li><li>Day 2: Bodhi Tree Med</li><li>Day 3: Monastery Tour</li><li>Day 4: Meditation Session</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private AC Auto<br>Hotel: Peace Lodge</p><strong>Meals & Activities</strong><p>Meals: Satvik Thali<br>Activities: Meditation</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Local Guide.</div><div class="exc">Exclusions: Ritual gifts.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 22,000 / Person</span><a href="booking.html?dest=Bodh Gaya Spiritual" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 26-30. LUXURY -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=600" alt="Burj Khalifa"></div>
+            <div class="content"><span class="tag luxury">Luxury</span><h2>Burj Khalifa - Sky View Luxury</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: Airport Limo</li><li>Day 2: 124th Floor View</li><li>Day 3: Yacht Dinner</li><li>Day 4: Desert Luxury</li><li>Day 5: Shopping</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Limo<br>Hotel: Armani Hotel</p><strong>Meals & Activities</strong><p>Meals: Michelin Star<br>Activities: Luxury Tours</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Entry.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,85,000 / Person</span><a href="booking.html?dest=Burj Khalifa Luxury" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600" alt="Palm Jumeirah"></div>
+            <div class="content"><span class="tag luxury">Luxury</span><h2>Palm Jumeirah - Island Opulence</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: Beach Front Stay</li><li>Day 2: Atlantis Park</li><li>Day 3: Private Beach</li><li>Day 4: Helicopter View</li><li>Day 5: Spa Retreat</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Luxury Sedan<br>Hotel: Atlantis The Royal</p><strong>Meals & Activities</strong><p>Meals: All Inclusive<br>Activities: Sea Tours</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Spa Pass.</div><div class="exc">Exclusions: Tips.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 3,45,000 / Person</span><a href="booking.html?dest=Palm Jumeirah Luxury" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=600" alt="Monaco"></div>
+            <div class="content"><span class="tag luxury">Luxury</span><h2>Monaco - Casino & Coast</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> Monaco<ul><li>Day 1: Monte Carlo Tour</li><li>Day 2: Luxury Car Driving</li><li>Day 3: Yacht Cruise</li><li>Day 4: Nice Visit</li><li>Day 5: Farewell Dinner</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Ferrari Drive<br>Hotel: Hotel de Paris</p><strong>Meals & Activities</strong><p>Meals: French Dining<br>Activities: Gambler's Night</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Car Rental.</div><div class="exc">Exclusions: Bets.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 4,12,000 / Person</span><a href="booking.html?dest=Monaco Luxury" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1533104322492-c0c16641697a?q=80&w=600" alt="Lake Como"></div>
+            <div class="content"><span class="tag luxury">Luxury</span><h2>Lake Como - Villa Elegance</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Italy<ul><li>Day 1: Private Villa Stay</li><li>Day 2: Boat Tour</li><li>Day 3: Bellagio Walk</li><li>Day 4: Spa Day</li><li>Day 5: Varenna Views</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Boat<br>Hotel: Grand Hotel Tremezzo</p><strong>Meals & Activities</strong><p>Meals: Gourmet Breakfast<br>Activities: Villa Entry</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Boat Rent.</div><div class="exc">Exclusions: Wine.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 3,90,000 / Person</span><a href="booking.html?dest=Lake Como Luxury" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1531235334415-430c51121dfd?q=80&w=600" alt="Swiss Alps"></div>
+            <div class="content"><span class="tag luxury">Luxury</span><h2>Swiss Alps - Alpine Peak Living</h2><div class="details-grid"><div><strong>Duration</strong> 8 Days / 7 Nights<strong>Destination</strong> Switzerland<ul><li>Day 1: First Class Rail</li><li>Day 2: St. Moritz Tour</li><li>Day 3: Glacier Express</li><li>Day 4: Jungfrau Top Visit</li><li>Day 5: Lucerne Lake Cruise</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Swiss Pass Gold<br>Hotel: Badrutt's Palace</p><strong>Meals & Activities</strong><p>Meals: Fondue & Wine<br>Activities: Skiing</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Rail.</div><div class="exc">Exclusions: Gear Rent.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 5,20,000 / Person</span><a href="booking.html?dest=Swiss Alps Luxury" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 31-35. BUDGET -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=600" alt="Goa"></div>
+            <div class="content"><span class="tag budget">Budget</span><h2>Goa - Beach Party Budget</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> India<ul><li>Day 1: Calangute Beach</li><li>Day 2: South Goa Tour</li><li>Day 3: Shack Dinner</li><li>Day 4: Shopping</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Bike Rental<br>Hotel: Beach Hostel</p><strong>Meals & Activities</strong><p>Meals: Local Snacks<br>Activities: Swimming</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Bike, Stay.</div><div class="exc">Exclusions: Alcohol.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 14,000 / Person</span><a href="booking.html?dest=Goa Budget" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=600" alt="Kathmandu"></div>
+            <div class="content"><span class="tag budget">Budget</span><h2>Kathmandu - Himalayan Heritage</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Nepal<ul><li>Day 1: Pashupatinath</li><li>Day 2: Patan Square</li><li>Day 3: Swayambhunath</li><li>Day 4: Local Markets</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local Bus<br>Hotel: Guesthouse</p><strong>Meals & Activities</strong><p>Meals: Dal Bhat<br>Activities: Walking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Visa Support.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 18,000 / Person</span><a href="booking.html?dest=Kathmandu Budget" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1525625232757-0740664687d6?q=80&w=600" alt="Sri Lanka"></div>
+            <div class="content"><span class="tag budget">Budget</span><h2>Sri Lanka - Coastal Island Hopper</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Sri Lanka<ul><li>Day 1: Colombo Walk</li><li>Day 2: Kandy Temple</li><li>Day 3: Tea Gardens</li><li>Day 4: Galle Beach</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Train & Tutu<br>Hotel: Budget Villa</p><strong>Meals & Activities</strong><p>Meals: Curry & Rice<br>Activities: Train Ride</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Rail.</div><div class="exc">Exclusions: Visa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 32,000 / Person</span><a href="booking.html?dest=Sri Lanka Budget" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1549111298-091f0e495fdb?q=80&w=600" alt="Bangkok Budget"></div>
+            <div class="content"><span class="tag budget">Budget</span><h2>Bangkok - Street Food & Markets</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Thailand<ul><li>Day 1: Khao San Road</li><li>Day 2: Chatuchak Market</li><li>Day 3: Canal Tour</li><li>Day 4: MBK Shopping</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: BTS & Van<br>Hotel: Budget Hotel</p><strong>Meals & Activities</strong><p>Meals: Street Food Tours<br>Activities: Local Exploring</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Metro Pass.</div><div class="exc">Exclusions: Insurance.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 28,000 / Person</span><a href="booking.html?dest=Bangkok Budget" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1518548419970-58e3b40e950d?q=80&w=600" alt="Bali Budget"></div>
+            <div class="content"><span class="tag budget">Budget</span><h2>Bali - Backpacker's Paradize</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Indonesia<ul><li>Day 1: Kuta Beach</li><li>Day 2: Ubud Market</li><li>Day 3: Tegenungan Fall</li><li>Day 4: Tanah Lot</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Shared Shuttle<br>Hotel: Homestay Stay</p><strong>Meals & Activities</strong><p>Meals: Nasi Goreng Thali<br>Activities: Sightseeing</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Car & Driver.</div><div class="exc">Exclusions: All Entry.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 25,000 / Person</span><a href="booking.html?dest=Bali Budget" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 36-40. GROUP -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1549466600-62cf6afbc43d?q=80&w=600" alt="Dubai Marina"></div>
+            <div class="content"><span class="tag group">Group</span><h2>Dubai Marina - Friends' Yacht Party</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: Private Yacht Party</li><li>Day 2: Beach Club Day</li><li>Day 3: Desert Safari</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Group Van<br>Hotel: Marina Apartments</p><strong>Meals & Activities</strong><p>Meals: BBQ & Drinks<br>Activities: Yachting</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Yacht Rent.</div><div class="exc">Exclusions: Insurance.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 65,000 / Person</span><a href="booking.html?dest=Dubai Marina Group" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1544837303-a16f3938becc?q=80&w=600" alt="Desert Safari"></div>
+            <div class="content"><span class="tag group">Group</span><h2>Desert Safari - Dune Bashing Crew</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: 4x4 Dune Bashing</li><li>Day 2: Camel Riding</li><li>Day 3: Belly Dance Show</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: 4x4 SUV<br>Hotel: Desert Camp Luxe</p><strong>Meals & Activities</strong><p>Meals: Arabic Buffet<br>Activities: Safari</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Transport.</div><div class="exc">Exclusions: Quad Bike.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 42,000 / Person</span><a href="booking.html?dest=Desert Safari Group" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=600" alt="Burj Khalifa Group"></div>
+            <div class="content"><span class="tag group">Group</span><h2>Burj Khalifa - Top of the World Group</h2><div class="details-grid"><div><strong>Duration</strong> 2 Days / 1 Night<strong>Destination</strong> Dubai<ul><li>Day 1: Observation Deck</li><li>Day 2: Fountain Show</li><li>Day 3: Group Dinner</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Shared Coach<br>Hotel: Downtown Hotel</p><strong>Meals & Activities</strong><p>Meals: Brunch Included<br>Activities: Sightseeing</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Fast Track.</div><div class="exc">Exclusions: Shopping.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 35,000 / Person</span><a href="booking.html?dest=Burj Khalifa Group" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600" alt="Palm Jumeirah Group"></div>
+            <div class="content"><span class="tag group">Group</span><h2>Palm Jumeirah - Island Party Vibe</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: Water Park Day</li><li>Day 2: Beach Club Night</li><li>Day 3: Yacht Spin</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Party Bus<br>Hotel: The Palm Resort</p><strong>Meals & Activities</strong><p>Meals: BBQ & Drinks<br>Activities: Watersports</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Park Access.</div><div class="exc">Exclusions: Spa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 55,000 / Person</span><a href="booking.html?dest=Palm Jumeirah Group" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1540959733332-e9ab65ba61c0?q=80&w=600" alt="Dubai Mall Group"></div>
+            <div class="content"><span class="tag group">Group</span><h2>Dubai Mall - Ultimate Shop Group</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> Dubai<ul><li>Day 1: Mall Marathon</li><li>Day 2: Aquarium Visit</li><li>Day 3: VR Park Fun</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Mall Shuttle<br>Hotel: Adjacent Hotel</p><strong>Meals & Activities</strong><p>Meals: Food Court Coup<br>Activities: Experiences</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: VR Credit.</div><div class="exc">Exclusions: Goods.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 25,000 / Person</span><a href="booking.html?dest=Dubai Mall Group" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 41-45. WEEKEND -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1582236371583-9366e4811bda?q=80&w=600" alt="Munnar"></div>
+            <div class="content"><span class="tag weekend">Weekend</span><h2>Munnar - Green Hill Escape</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Tea Garden Walk</li><li>Day 2: Lake Boating</li><li>Day 3: Local Market</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Car<br>Hotel: Hillside Cottage</p><strong>Meals & Activities</strong><p>Meals: Local Kerala<br>Activities: Nature</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Car, Stay.</div><div class="exc">Exclusions: Entry Fees.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 14,000 / Person</span><a href="booking.html?dest=Munnar Weekend" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1593181629936-11c609b8db9b?q=80&w=600" alt="Lonavala"></div>
+            <div class="content"><span class="tag weekend">Weekend</span><h2>Lonavala - Monsoon Bliss</h2><div class="details-grid"><div><strong>Duration</strong> 2 Days / 1 Night<strong>Destination</strong> India<ul><li>Day 1: Tiger Point View</li><li>Day 2: Bhusi Dam</li><li>Day 3: Chikki Shopping</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Shared Volvo<br>Hotel: Mountain Resort</p><strong>Meals & Activities</strong><p>Meals: Breakfast Inc.<br>Activities: Trekking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Bus, Hotel.</div><div class="exc">Exclusions: All meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 8,500 / Person</span><a href="booking.html?dest=Lonavala Weekend" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=600" alt="Mahabaleshwar"></div>
+            <div class="content"><span class="tag weekend">Weekend</span><h2>Mahabaleshwar - Strawberry Trails</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Mapro Garden</li><li>Day 2: Arthur's Seat</li><li>Day 3: Venna Lake</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Car<br>Hotel: Heritage Bungalow</p><strong>Meals & Activities</strong><p>Meals: Farm Fresh<br>Activities: Boating</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Farm Tour.</div><div class="exc">Exclusions: Meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 12,000 / Person</span><a href="booking.html?dest=Mahabaleshwar Weekend" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1590050752117-23a9d7fc9bb5?q=80&w=600" alt="Coorg"></div>
+            <div class="content"><span class="tag weekend">Weekend</span><h2>Coorg - Scotland of India</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Coffee Estate</li><li>Day 2: Abbey Falls</li><li>Day 3: Raja's Seat</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Jeep<br>Hotel: Coffee Estate Stay</p><strong>Meals & Activities</strong><p>Meals: Kodava Food<br>Activities: Plantation Walk</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Plantation entry.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 15,000 / Person</span><a href="booking.html?dest=Coorg Weekend" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1582236371583-9366e4811bda?q=80&w=600" alt="Ooty"></div>
+            <div class="content"><span class="tag weekend">Weekend</span><h2>Ooty - Nilgiri Queen Escape</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Toy Train Ride</li><li>Day 2: Botanical Garden</li><li>Day 3: Pykara Lake</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Cabs<br>Hotel: Pine View Hotel</p><strong>Meals & Activities</strong><p>Meals: South Indian<br>Activities: Toy Train</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Train Ticket.</div><div class="exc">Exclusions: Meals.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 13,000 / Person</span><a href="booking.html?dest=Ooty Weekend" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 46-50. CULTURAL -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600" alt="Kyoto"></div>
+            <div class="content"><span class="tag cultural">Cultural</span><h2>Kyoto - Zen & Heritage</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Japan<ul><li>Day 1: Bamboo Forest</li><li>Day 2: Fushimi Inari</li><li>Day 3: Tea Ceremony</li><li>Day 4: Gion Walk</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: JR Rail<br>Hotel: Ryokan Stay</p><strong>Meals & Activities</strong><p>Meals: Kaiseki Dining<br>Activities: Temple Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Ritual Entry.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,65,000 / Person</span><a href="booking.html?dest=Kyoto Cultural" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=600" alt="Rome"></div>
+            <div class="content"><span class="tag cultural">Cultural</span><h2>Rome - Eternal City Wonders</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Italy<ul><li>Day 1: Colosseum Entry</li><li>Day 2: Roman Forum</li><li>Day 3: Trevi Fountain</li><li>Day 4: Pantheon Walk</li><li>Day 5: Pizza Workshop</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Metro Pass<br>Hotel: Boutique Rome</p><strong>Meals & Activities</strong><p>Meals: Pizza & Pasta<br>Activities: History Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Entry.</div><div class="exc">Exclusions: Tips.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,42,000 / Person</span><a href="booking.html?dest=Rome Cultural" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1503152397458-71280f338f9f?q=80&w=600" alt="Athens"></div>
+            <div class="content"><span class="tag cultural">Cultural</span><h2>Athens - Cradle of Civilization</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> Greece<ul><li>Day 1: Acropolis Tour</li><li>Day 2: Plaka District</li><li>Day 3: Temple of Zeus</li><li>Day 4: National Museum</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Walking & Bus<br>Hotel: Old City Hotel</p><strong>Meals & Activities</strong><p>Meals: Greek Salads<br>Activities: History</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Acropolis pass.</div><div class="exc">Exclusions: Lunch.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,28,000 / Person</span><a href="booking.html?dest=Athens Cultural" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1473163922524-7664e07b20d8?q=80&w=600" alt="Varanasi Cultural"></div>
+            <div class="content"><span class="tag cultural">Cultural</span><h2>Varanasi - Living History Tour</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> India<ul><li>Day 1: Evening Aarti</li><li>Day 2: Morning Boat</li><li>Day 3: Sarnath Day</li><li>Day 4: Local Arts</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Car & Boat<br>Hotel: Ghatside Stay</p><strong>Meals & Activities</strong><p>Meals: Street Delights<br>Activities: Prayers</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Boat Guide.</div><div class="exc">Exclusions: Tips.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 22,000 / Person</span><a href="booking.html?dest=Varanasi Cultural" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?q=80&w=600" alt="Cairo"></div>
+            <div class="content"><span class="tag cultural">Cultural</span><h2>Cairo - Pharaohs' Legacy</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> Egypt<ul><li>Day 1: Pyramids of Giza</li><li>Day 2: Egyptian Museum</li><li>Day 3: Old Cairo Market</li><li>Day 4: Nile Cruise</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: AC Coach<br>Hotel: Nile View Hotel</p><strong>Meals & Activities</strong><p>Meals: Arabian Food<br>Activities: Exploration</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Entry VIP.</div><div class="exc">Exclusions: Visa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,55,000 / Person</span><a href="booking.html?dest=Cairo Cultural" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 51-55. EDUCATIONAL -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=600" alt="NASA"></div>
+            <div class="content"><span class="tag educational">Educational</span><h2>NASA Kennedy Space Center - STEM Camp</h2><div class="details-grid"><div><strong>Duration</strong> 10 Days / 9 Nights<strong>Destination</strong> USA<ul><li>Day 1: Arrival & Brief</li><li>Day 2: Rocket Science 101</li><li>Day 3: Astronaut Meet</li><li>Day 4: Simulation Day</li><li>Day 5: Museum Tour</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Camp Bus<br>Hotel: Student Dorms</p><strong>Meals & Activities</strong><p>Meals: All Inclusive<br>Activities: Rocket Build</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Camp Kit.</div><div class="exc">Exclusions: Visa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,95,000 / Student</span><a href="booking.html?dest=NASA Educational" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1549466600-62cf6afbc43d?q=80&w=600" alt="Smithsonian"></div>
+            <div class="content"><span class="tag educational">Educational</span><h2>Smithsonian Institution - History & Tech</h2><div class="details-grid"><div><strong>Duration</strong> 8 Days / 7 Nights<strong>Destination</strong> USA<ul><li>Day 1: Museum of Art</li><li>Day 2: Air & Space Museum</li><li>Day 3: National Zoo</li><li>Day 4: History Archives</li><li>Day 5: Tech Exhibits</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: DC Metro<br>Hotel: Student Hostel</p><strong>Meals & Activities</strong><p>Meals: Boxed Lunches<br>Activities: Curator Talk</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Entry Passes.</div><div class="exc">Exclusions: Flight.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,45,000 / Student</span><a href="booking.html?dest=Smithsonian Educational" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=600" alt="Oxford"></div>
+            <div class="content"><span class="tag educational">Educational</span><h2>Oxford University - Academic Spirit</h2><div class="details-grid"><div><strong>Duration</strong> 7 Days / 6 Nights<strong>Destination</strong> UK<ul><li>Day 1: Campus Tour</li><li>Day 2: Library Visit</li><li>Day 3: Debate Workshop</li><li>Day 4: Science Labs</li><li>Day 5: Punting</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local Bus<br>Hotel: College Dorms</p><strong>Meals & Activities</strong><p>Meals: College Dining<br>Activities: Lecture Access</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Dorm, Meals.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,12,000 / Student</span><a href="booking.html?dest=Oxford Educational" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=600" alt="MIT"></div>
+            <div class="content"><span class="tag educational">Educational</span><h2>MIT - Engineering & Future</h2><div class="details-grid"><div><strong>Duration</strong> 6 Days / 5 Nights<strong>Destination</strong> USA<ul><li>Day 1: Robotics Lab</li><li>Day 2: AI Center</li><li>Day 3: Architecture Tour</li><li>Day 4: Physics Demo</li><li>Day 5: Project Pitch</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Boston T<br>Hotel: Campus Guesthouse</p><strong>Meals & Activities</strong><p>Meals: Bento Boxes<br>Activities: Lab Access</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: T-Pass, Lab.</div><div class="exc">Exclusions: Personal.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 2,80,000 / Student</span><a href="booking.html?dest=MIT Educational" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=600" alt="California Science Center"></div>
+            <div class="content"><span class="tag educational">Educational</span><h2>California Science Center - Space Shuttle</h2><div class="details-grid"><div><strong>Duration</strong> 5 Days / 4 Nights<strong>Destination</strong> USA<ul><li>Day 1: Endeavour Exhibit</li><li>Day 2: Ecosystems Tour</li><li>Day 3: Hands-on Lab</li><li>Day 4: IMAX Movie</li><li>Day 5: Hollywood Visit</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Private Coach<br>Hotel: Budget Resort</p><strong>Meals & Activities</strong><p>Meals: Pizza & Burgers<br>Activities: Science Labs</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: IMAX, Lab.</div><div class="exc">Exclusions: Souvenirs.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 1,95,000 / Student</span><a href="booking.html?dest=California Science Educational" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 56-60. CORPORATE -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=600" alt="Manali"></div>
+            <div class="content"><span class="tag corporate">Corporate</span><h2>Manali - Peak Team Retreat</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> India<ul><li>Day 1: Team Building</li><li>Day 2: Strategy Session</li><li>Day 3: Adventure Day</li><li>Day 4: Gala Dinner</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Luxury Coach<br>Hotel: 5 Star Resort</p><strong>Meals & Activities</strong><p>Meals: Full Board Buffet<br>Activities: Workshops</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: AV Rental.</div><div class="exc">Exclusions: Upgrades.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 52,000 / Delegate</span><a href="booking.html?dest=Manali Corporate" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1621235652591-66df75f7eeab?q=80&w=600" alt="Rishikesh"></div>
+            <div class="content"><span class="tag corporate">Corporate</span><h2>Rishikesh - Riverside Reset</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Yoga & Brief</li><li>Day 2: Rafting & Fun</li><li>Day 3: Camp Fire Night</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: AC Traveler<br>Hotel: Luxury Tent Camp</p><strong>Meals & Activities</strong><p>Meals: Organic Foods<br>Activities: Adventure</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Rafting Gear.</div><div class="exc">Exclusions: Personal.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 18,000 / Delegate</span><a href="booking.html?dest=Rishikesh Corporate" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1549466600-62cf6afbc43d?q=80&w=600" alt="Shimla Corporate"></div>
+            <div class="content"><span class="tag corporate">Corporate</span><h2>Shimla - Colonial Board Meeting</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Meeting Day 1</li><li>Day 2: Ridge Walk</li><li>Day 3: Dinner at Cecil</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: SUV<br>Hotel: Oberoi Cecil</p><strong>Meals & Activities</strong><p>Meals: Fine Dining<br>Activities: Networking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Conference Hall.</div><div class="exc">Exclusions: Laundry.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 45,000 / Delegate</span><a href="booking.html?dest=Shimla Corporate" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=600" alt="Goa Corporate"></div>
+            <div class="content"><span class="tag corporate">Corporate</span><h2>Goa - Beachfront Offsite</h2><div class="details-grid"><div><strong>Duration</strong> 4 Days / 3 Nights<strong>Destination</strong> India<ul><li>Day 1: Ice Breakers</li><li>Day 2: Workshop & Party</li><li>Day 3: Water Sports</li><li>Day 4: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Luxury Bus<br>Hotel: W Goa Resort</p><strong>Meals & Activities</strong><p>Meals: Seafood & Buffet<br>Activities: Team Games</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: DJ & Drinks.</div><div class="exc">Exclusions: Spa.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 65,000 / Delegate</span><a href="booking.html?dest=Goa Corporate" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1621235652591-66df75f7eeab?q=80&w=600" alt="Nainital Corporate"></div>
+            <div class="content"><span class="tag corporate">Corporate</span><h2>Nainital - Lakeside Strategy</h2><div class="details-grid"><div><strong>Duration</strong> 3 Days / 2 Nights<strong>Destination</strong> India<ul><li>Day 1: Arrival & Brief</li><li>Day 2: Boat Meeting</li><li>Day 3: Cable Car Trip</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Local Cabs<br>Hotel: Manu Maharani</p><strong>Meals & Activities</strong><p>Meals: Kumaoni Buffet<br>Activities: Bonding</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: WiFi, LCD.</div><div class="exc">Exclusions: Flights.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 35,000 / Delegate</span><a href="booking.html?dest=Nainital Corporate" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 61-65. CRUISE -->
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=600" alt="Antarctic"></div>
+            <div class="content"><span class="tag cruise">Cruise</span><h2>Antarctic Peninsula - Ice Expedition</h2><div class="details-grid"><div><strong>Duration</strong> 15 Days / 14 Nights<strong>Destination</strong> Antarctica<ul><li>Day 1: Ushuaia Boat</li><li>Day 2: Drake Passage</li><li>Day 3: Iceberg Views</li><li>Day 4: Whale Spotting</li><li>Day 5: Shore Landing</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Ice Ship<br>Hotel: Sea cabin Luxe</p><strong>Meals & Activities</strong><p>Meals: Gourmet Ships<br>Activities: Lectures</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Polar Gear.</div><div class="exc">Exclusions: Drinks.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 8,95,000 / Person</span><a href="booking.html?dest=Antarctic Cruise" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1516422266298-d4891d40b174?q=80&w=600" alt="Drake Passage"></div>
+            <div class="content"><span class="tag cruise">Cruise</span><h2>Drake Passage - Thrill of the Seas</h2><div class="details-grid"><div><strong>Duration</strong> 10 Days / 9 Nights<strong>Destination</strong> Southern Ocean<ul><li>Day 1: Buenos Aires</li><li>Day 2: Boarding Quest</li><li>Day 3: Sea Lions Watch</li><li>Day 4: Open Sea Cruising</li><li>Day 5: Return</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Expedition Vessel<br>Hotel: Ocean Suite</p><strong>Meals & Activities</strong><p>Meals: Seafood Special<br>Activities: Navigation</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: All Landings.</div><div class="exc">Exclusions: Gear.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 6,55,000 / Person</span><a href="booking.html?dest=Drake Cruise" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=600" alt="Paradise Bay"></div>
+            <div class="content"><span class="tag cruise">Cruise</span><h2>Paradise Bay - Silent Ice World</h2><div class="details-grid"><div><strong>Duration</strong> 12 Days / 11 Nights<strong>Destination</strong> Antarctica<ul><li>Day 1: Arrival & Deck</li><li>Day 2: Kayak Session</li><li>Day 3: Penguin Colony</li><li>Day 4: Glacial Hike</li><li>Day 5: Bay Cruise</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Small Cruiser<br>Hotel: Cabin with View</p><strong>Meals & Activities</strong><p>Meals: Buffet Lunch<br>Activities: Kayaking</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Gear, Guide.</div><div class="exc">Exclusions: Polar Plunge.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 7,85,000 / Person</span><a href="booking.html?dest=Paradise Cruise" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600" alt="Deception Island"></div>
+            <div class="content"><span class="tag cruise">Cruise</span><h2>Deception Island - Volcanic Shores</h2><div class="details-grid"><div><strong>Duration</strong> 11 Days / 10 Nights<strong>Destination</strong> Antarctica<ul><li>Day 1: Hot Springs Dip</li><li>Day 2: Black Sand Walk</li><li>Day 3: Abandoned Whaling</li><li>Day 4: Caldera View</li><li>Day 5: Departure</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Zodiak Boats<br>Hotel: Cruiser Stay</p><strong>Meals & Activities</strong><p>Meals: Hot Meals<br>Activities: Thermal Bath</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Safety Gear.</div><div class="exc">Exclusions: Insurance.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 7,10,000 / Person</span><a href="booking.html?dest=Deception Cruise" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+        <div class="package-item">
+            <div class="package-image-container"><img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=600" alt="Lemaire Channel"></div>
+            <div class="content"><span class="tag cruise">Cruise</span><h2>Lemaire Channel - Photographer's Dream</h2><div class="details-grid"><div><strong>Duration</strong> 13 Days / 12 Nights<strong>Destination</strong> Antarctica<ul><li>Day 1: Sunset Views</li><li>Day 2: Narrow Channel</li><li>Day 3: Portrait Shots</li><li>Day 4: Glacier Backdrop</li><li>Day 5: Farewell</li></ul></div><div><strong>Transport & Stay</strong><p>Transport: Luxury Liner<br>Hotel: Balcony Cabin</p><strong>Meals & Activities</strong><p>Meals: Photography Workshop<br>Activities: Photo Tour</p></div></div><div class="inclusion-exclusion"><div class="inc">Inclusions: Tripod Rent.</div><div class="exc">Exclusions: Lens Pro.</div></div><div class="price-box" style="display: flex; justify-content: space-between; align-items: center;"><span class="price-value">₹ 8,35,000 / Person</span><a href="booking.html?dest=Lemaire Cruise" class="btn-build" style="width: auto; margin: 0; padding: 0.8rem 1.5rem;">Book Now</a></div></div></div>
+
+        <!-- 66. CUSTOMIZED -->
+        <div class="package-item">
+            <div class="package-image-container">
+                <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1887&auto=format&fit=crop"
+                    alt="Customized">
+            </div>
+            <div class="content">
+                <span class="tag customized">Customized</span>
+                <h2>Bespoke World Tour - Your Way</h2>
+                <div class="details-grid">
+                    <div>
+                        <strong>Duration</strong> Flexible
+                        <strong>Destination</strong> Worldwide Selection
+                        <strong>Itinerary</strong>
+                        <ul>
+                            <li>100% Custom Path</li>
+                            <li>Personalized Pace</li>
+                            <li>Curated Experiences only you want</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>Transport & Stay</strong>
+                        <p>Transport: Private or Shared (Choice)<br>Hotel: Handpicked properties</p>
+                        <strong>Meals & Activities</strong>
+                        <p>Meals: Diet-specific curation<br>Activities: Personalized Interests</p>
+                    </div>
+                </div>
+                <div class="inclusion-exclusion">
+                    <div class="inc"><strong>Inclusions:</strong> Dedicated Travel Manager.</div>
+                    <div class="exc"><strong>Exclusions:</strong> To be defined in quote.</div>
+                </div>
+                <div class="price-box">
+                    <span class="price-value">Starting ₹ 50,000</span>
+                    <button class="btn-build" id="toggle-custom-form">
+                        <i class="fas fa-magic"></i> Build Your Own Plan Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-plan-section" class="custom-plan-form">
+            <h2 style="text-align: center; color: #3d5a80; margin-bottom: 2rem;">Design Your Dream Escape</h2>
+            <form id="bespokeForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email / Mobile</label>
+                        <input type="text" placeholder="Where can we reach you?" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Destinations</label>
+                        <input type="text" placeholder="e.g. Switzerland, Italy, France">
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Start Date</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Days</label>
+                        <input type="number" min="1" placeholder="e.g. 10">
+                    </div>
+                    <div class="form-group">
+                        <label>Adults Count</label>
+                        <input type="number" min="1" placeholder="Adults">
+                    </div>
+                    <div class="form-group">
+                        <label>Accommodation Preference</label>
+                        <select>
+                            <option>Standard (3 Star)</option>
+                            <option>Premium (4 Star)</option>
+                            <option>Luxury (5 Star)</option>
+                            <option>Ultra-Luxury / Palaces</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Total Budget (INR)</label>
+                        <input type="text" placeholder="e.g. ₹ 5,00,000">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label style="width: 100%; margin-bottom: 0.5rem; font-weight: 700;">Interests & Vibe:</label>
+                        <div class="checkbox-item"><input type="checkbox"> Adventure</div>
+                        <div class="checkbox-item"><input type="checkbox"> Relaxation</div>
+                        <div class="checkbox-item"><input type="checkbox"> Food & Gastronomy</div>
+                        <div class="checkbox-item"><input type="checkbox"> Photography</div>
+                        <div class="checkbox-item"><input type="checkbox"> History & Culture</div>
+                        <div class="checkbox-item"><input type="checkbox"> Wildlife</div>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Tell us more about your vision</label>
+                        <textarea rows="4"
+                            placeholder="Mention any specific activities, dietary needs, or celebration details..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn-build" style="background: #2d6a4f;">
+                    <i class="fas fa-paper-plane"></i> Submit My Plan Request
+                </button>
+            </form>
+        </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2025 Global Horizons Travel – Explore Beyond Borders</p>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/packages.js"></script>
+    <script src="js/destinationData.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+    <script src="js/discount.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

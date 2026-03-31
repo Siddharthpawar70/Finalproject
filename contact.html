@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header contact-hero"
+        style="background: linear-gradient(rgba(2, 44, 67, 0.7), rgba(2, 44, 67, 0.7)), url('images/destinations/contact-bg.jpg') center/cover; padding: 100px 0; color: white; text-align: center;">
+        <div class="container">
+            <h1>Contact & Feedback</h1>
+            <p>We're here to help and listen to your travel stories.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem;">
+            <!-- Contact Info -->
+            <section class="contact-info">
+                <h2>Get in Touch</h2>
+                <div style="margin-top: 2rem; font-size: 1.1rem; line-height: 2;">
+                    <p><strong>📞 Phone:</strong> +91 1234567893 | +91 9876543214</p>
+                    <p><strong>📧 Email:</strong> abc@gamil.com</p>
+                    <p><strong>📍 Address:</strong> Dhayari, Pune, Maharashtra - 411041</p>
+                </div>
+
+                <div class="map-container"
+                    style="margin-top: 2rem; border-radius: 15px; overflow: hidden; height: 300px; box-shadow: var(--shadow);">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121115.3524856037!2d73.74345262791557!3d18.444985223689456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc294627d42cf3b%3A0xc3995f7004f2d96!2sDhayari%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </section>
+
+            <!-- Feedback Form -->
+            <section class="feedback-form-section">
+                <div class="form-card"
+                    style="background: white; padding: 2.5rem; border-radius: 20px; box-shadow: var(--shadow);">
+                    <h2>Send Us Your Feedback</h2>
+                    <p style="margin-bottom: 2rem; color: #666;">We value your opinion and strive to improve our
+                        services based on your feedback.</p>
+                    <form action="#" method="post" class="feedback-form" id="mainFeedbackForm">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full
+                                    Name</label>
+                                <input type="text" id="fb-name" name="name" placeholder="John Doe" required
+                                    style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email
+                                    Address</label>
+                                <input type="email" id="fb-email" name="email" placeholder="john@example.com" required
+                                    style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Rate Your
+                                Experience</label>
+                            <div class="star-rating"
+                                style="display: flex; gap: 10px; font-size: 1.5rem; color: #ddd; cursor: pointer;">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                                <input type="hidden" name="rating" id="fb-rating" value="5">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Review</label>
+                            <textarea id="fb-message" name="message" rows="5"
+                                placeholder="Tell us about your amazing journey..." required
+                                style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn primary"
+                            style="width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Share
+                            Your Experience</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- Customer Reviews -->
+        <section class="reviews-section" style="margin-top: 5rem; margin-bottom: 5rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2>What Our Travelers Say</h2>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                    <span style="font-size: 2rem; font-weight: 800; color: var(--primary);">5.0</span>
+                    <div style="color: #f39c12;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span style="color: #666;">(1,250+ Reviews)</span>
+                </div>
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="card" style="padding: 2rem; border-radius: 15px;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Michael Smith"
+                            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.1rem;">Michael Smith</h3>
+                            <span style="font-size: 0.8rem; color: #666;">Business Traveller</span>
+                        </div>
+                    </div>
+                    <p>"Our trip to Paris was absolutely magical. Global Horizons took care of every detail, from the
+                        flight to the cozy hotel near the Eiffel Tower."</p>
+                    <div style="color: #f39c12; margin-top: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 2rem; border-radius: 15px;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="Sarah Johnson"
+                            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.1rem;">Sarah Johnson</h3>
+                            <span style="font-size: 0.8rem; color: #666;">Family Trip</span>
+                        </div>
+                    </div>
+                    <p>"The Dubai Luxury Tour was breathtaking. The coordination was seamless. Only wish the desert
+                        safari was a bit longer, but otherwise perfect!"</p>
+                    <div style="color: #f39c12; margin-top: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 2rem; border-radius: 15px;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2" alt="Robert Brown"
+                            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <h3 style="margin: 0; font-size: 1.1rem;">Robert Brown</h3>
+                            <span style="font-size: 0.8rem; color: #666;">Solo Explorer</span>
+                        </div>
+                    </div>
+                    <p>"Great value for money! The cultural tour in Japan was eye-opening. The guides were very
+                        knowledgeable and friendly."</p>
+                    <div style="color: #f39c12; margin-top: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        © 2025 Global Horizons Travel – Explore Beyond Borders
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

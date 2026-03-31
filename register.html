@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="auth-card" style="max-width: 500px;">
+            <h2>Create Account</h2>
+            <p>Join our exclusive community of global travelers today.</p>
+
+            <form class="auth-form" id="registerForm">
+                <div class="auth-group">
+                    <label>Full Name</label>
+                    <div class="auth-input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="regName" placeholder="John Doe" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="auth-group">
+                        <label>Email Address</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="regEmail" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="auth-group">
+                        <label>Mobile Number</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="regPhone" placeholder="+1234567890" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="auth-group">
+                        <label>Country 🌍</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-globe"></i>
+                            <input type="text" id="regCountry" placeholder="USA" required>
+                        </div>
+                    </div>
+                    <div class="auth-group">
+                        <label>City</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-city"></i>
+                            <input type="text" id="regCity" placeholder="New York" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="auth-group">
+                        <label>Password</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="regPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="auth-group">
+                        <label>Confirm Password</label>
+                        <div class="auth-input-wrapper">
+                            <i class="fas fa-shield-alt"></i>
+                            <input type="password" id="regConfirmPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="passwordStrength" style="font-size: 0.75rem; margin-top: -10px; margin-bottom: 10px; color: #666;"></div>
+
+                <div style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 10px;">
+                    <input type="checkbox" id="terms" required style="margin-top: 4px;">
+                    <label for="terms" style="font-size: 0.8rem; color: var(--light-text);">I agree to the <a href="#"
+                            style="color: var(--accent);">Terms of Service</a> and <a href="#"
+                            style="color: var(--accent);">Privacy Policy</a>.</label>
+                </div>
+
+                <button type="submit" class="btn primary" id="regSubmit"
+                    style="width: 100%; padding: 1rem; border-radius: 12px;">Create My Account</button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>© 2025 Global Horizons Travel – Explore Beyond Borders</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/register.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

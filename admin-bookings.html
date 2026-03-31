@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings - Admin - Global Horizons Travel</title>
+    <script src="js/admin-guard.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --admin-primary: #022c43;
+            --admin-accent: #f39c12;
+            --admin-bg: #f4f7f6;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--admin-primary);
+            color: #fff;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-links a {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-links a.active {
+            background-color: var(--admin-accent);
+            color: var(--admin-primary);
+            font-weight: 600;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            flex-grow: 1;
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div
+            style="text-align: center; margin-bottom: 2rem; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px;">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour"
+                    style="width: 130px; margin-bottom: 10px; filter: brightness(0) invert(1);">
+            </a>
+            <h2 style="margin: 0; font-size: 1.2rem; letter-spacing: 1px;">Admin Dashboard</h2>
+        </div>
+        <div class="sidebar-links">
+            <a href="admin.html"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+            <a href="admin-bookings.html" class="active"><i class="fas fa-book"></i> <span>Bookings</span></a>
+            <a href="admin-prices.html"><i class="fas fa-tags"></i> <span>Package Prices</span></a>
+            <a href="admin-customers.html"><i class="fas fa-users"></i> <span>Customers</span></a>
+            <a href="admin-settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="page-header">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <img src="images/final_logo.png" alt="Logo" style="height: 40px;">
+                <div>
+                    <h1>Manage Bookings</h1>
+                    <p style="color: #666; font-size: 0.85rem;">View and manage all customer travel bookings</p>
+                </div>
+            </div>
+            <a href="#" id="admin-logout-link" class="logout-link"
+                style="color: #e74c3c; font-weight: 600; text-decoration: none; border: 1px solid #e74c3c; padding: 0.5rem 1rem; border-radius: 8px;">Logout</a>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div id="booking-table-container">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: #f8f9fa;">
+                        <tr>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #eee;">Booking ID</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #eee;">Customer</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #eee;">Destination</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #eee;">Date</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #eee;">Amount</th>
+                            <th style="padding: 1rem; text-align: center; border-bottom: 2px solid #eee;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-booking-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+                <div id="empty-bookings" class="empty-state" style="display: none;">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>No active bookings found in the system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/admin-bookings.js"></script>
+    <script>
+        document.getElementById('admin-logout-link').onclick = (e) => {
+            e.preventDefault();
+            localStorage.removeItem('isAdminLoggedIn');
+            localStorage.removeItem('adminSession');
+            window.location.href = 'admin-login.html';
+        };
+    </script>
+</body>
+
+</html>

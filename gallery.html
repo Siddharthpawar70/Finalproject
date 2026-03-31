@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Gallery - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        .gallery-header {
+            background: linear-gradient(rgba(2, 44, 67, 0.8), rgba(2, 44, 67, 0.8)), url('images/gallery/tour1.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .gallery-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            height: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 61, 98, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay i {
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            text-align: center;
+            background: white;
+            font-weight: 600;
+            color: #022c43;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html" class="active">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="gallery-header">
+        <div class="container">
+            <h1>Traveler Memories</h1>
+            <p>Capturing the joy of exploration with our amazing global family.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/gallery/tour1.jpg" alt="Tour Memory 1">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour2.jpg" alt="Tour Memory 2">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour3.jpg" alt="Tour Memory 3">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour4.jpg" alt="Tour Memory 4">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour5.jpg" alt="Tour Memory 5">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour6.jpg" alt="Tour Memory 6">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour7.jpg" alt="Tour Memory 7">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/tour8.jpg" alt="Tour Memory 8">
+                <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer"
+        style="background: #022c43; color: white; padding: 40px 0; margin-top: 50px; text-align: center;">
+        <div class="container">
+            <p>© 2025 Global Horizons Travel – Explore Beyond Borders</p>
+            <div style="margin-top: 15px;">
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

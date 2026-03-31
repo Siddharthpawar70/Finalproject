@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Receipt - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your booking receipt from Global Horizons Travel. View and print your confirmed booking details.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .receipt-card { box-shadow: none; border: 1px solid #ddd; }
+        }
+
+        .receipt-wrapper {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #022c43 0%, #0a3d62 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+        }
+
+        .receipt-card {
+            background: white;
+            max-width: 700px;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+        }
+
+        .receipt-header {
+            background: linear-gradient(135deg, #022c43, #0a3d62);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .receipt-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: white;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .receipt-header .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .receipt-header img { height: 55px; }
+
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid rgba(39, 174, 96, 0.5);
+            color: #2ecc71;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .receipt-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .receipt-header p {
+            opacity: 0.75;
+            font-size: 0.9rem;
+        }
+
+        .receipt-body { padding: 2.5rem; }
+
+        .ref-badge {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ref-badge .ref-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.85;
+        }
+
+        .ref-badge .ref-value {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 540px) {
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border-left: 4px solid #022c43;
+        }
+
+        .detail-item.accent { border-left-color: #f39c12; }
+        .detail-item.green  { border-left-color: #27ae60; }
+
+        .detail-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .detail-item .value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #022c43;
+        }
+
+        .price-box {
+            background: linear-gradient(135deg, #022c43, #0a3d62);
+            color: white;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .price-box .amount {
+            font-size: 2.2rem;
+            font-weight: 900;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .price-box .method-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .payment-id {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+            font-family: monospace;
+        }
+
+        .receipt-footer {
+            border-top: 1px dashed #eee;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-print {
+            background: #022c43;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:hover { background: #0a3d62; transform: translateY(-2px); }
+
+        .btn-home {
+            background: #f39c12;
+            color: #022c43;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-home:hover { transform: translateY(-2px); }
+
+        .watermark {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            font-size: 0.7rem;
+            color: #bbb;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="receipt-wrapper">
+        <div class="receipt-card">
+            <div class="receipt-header">
+                <div class="logo-area">
+                    <img src="images/final_logo.png" alt="Global Horizons Travel">
+                </div>
+                <div class="success-badge">
+                    <i class="fas fa-check-circle"></i> Payment Confirmed
+                </div>
+                <h1>Booking Receipt</h1>
+                <p>Thank you for choosing Global Horizons Travel</p>
+            </div>
+
+            <div class="receipt-body">
+                <!-- Booking Reference -->
+                <div class="ref-badge">
+                    <div class="ref-label">Booking Reference</div>
+                    <div class="ref-value" id="ref-value">—</div>
+                    <div style="font-size:0.8rem;margin-top:4px;opacity:0.85;" id="receipt-date">—</div>
+                </div>
+
+                <!-- Core Details -->
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-user"></i> Traveler</div>
+                        <div class="value" id="r-name">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-envelope"></i> Email</div>
+                        <div class="value" id="r-email">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-phone"></i> Mobile</div>
+                        <div class="value" id="r-mobile">—</div>
+                    </div>
+                    <div class="detail-item accent">
+                        <div class="label"><i class="fas fa-map-marker-alt"></i> Destination</div>
+                        <div class="value" id="r-dest">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-calendar"></i> Travel Date</div>
+                        <div class="value" id="r-date">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-users"></i> Travelers</div>
+                        <div class="value" id="r-travelers">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="label"><i class="fas fa-plane"></i> Transport Mode</div>
+                        <div class="value" id="r-mode">—</div>
+                    </div>
+                    <div class="detail-item green">
+                        <div class="label"><i class="fas fa-tag"></i> Offer Applied</div>
+                        <div class="value" id="r-offer">—</div>
+                    </div>
+                </div>
+
+                <!-- Passengers list -->
+                <div id="r-passengers-section" style="margin-bottom:1.5rem; display:none;">
+                    <div class="detail-item" style="border-left-color:#7209b7;">
+                        <div class="label"><i class="fas fa-user-friends"></i> All Passengers</div>
+                        <div class="value" id="r-passengers" style="font-size:0.9rem;line-height:1.8;">—</div>
+                    </div>
+                </div>
+
+                <!-- Amount Paid -->
+                <div class="price-box">
+                    <div>
+                        <div style="font-size:0.75rem;opacity:0.7;margin-bottom:4px;letter-spacing:1px;">AMOUNT PAID</div>
+                        <div class="amount" id="r-amount">₹0</div>
+                        <div class="payment-id" id="r-txn">—</div>
+                    </div>
+                    <div>
+                        <div class="method-badge" id="r-method">—</div>
+                        <div style="font-size:0.7rem;text-align:right;margin-top:6px;opacity:0.6;">PAYMENT STATUS</div>
+                        <div style="font-size:0.75rem;text-align:right;color:#2ecc71;font-weight:700;">✓ SUCCESS</div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="receipt-footer">
+                    <p>📧 A confirmation email has been sent to your email address.</p>
+                    <p style="margin-top:6px;">For support: <strong>support@globalhorizons.travel</strong> | +91 98765 43210</p>
+
+                    <div class="action-btns no-print">
+                        <button class="btn-print" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Receipt
+                        </button>
+                        <a href="ticket.html" class="btn-home">
+                            <i class="fas fa-ticket-alt"></i> My Tickets
+                        </a>
+                        <a href="index.html" class="btn-home" style="background:#eee;color:#022c43;">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="watermark">
+                GLOBAL HORIZONS TRAVEL — OFFICIAL BOOKING RECEIPT — NOT FOR RESALE
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refParam = urlParams.get('ref');
+            let d;
+
+            if (refParam) {
+                // Try fetching from backend if ref is provided in URL
+                try {
+                    const res = await fetch(`backend/booking_api.php?action=get_single&ref=${refParam}`);
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        d = data.booking;
+                    }
+                } catch (err) {
+                    console.error('Fetch error:', err);
+                }
+            }
+
+            if (!d) {
+                const raw = localStorage.getItem('receiptData') || localStorage.getItem('latestBooking');
+                if (!raw) {
+                    document.querySelector('.receipt-body').innerHTML = '<p style="text-align:center;color:#999;">No receipt data found. Please complete a booking first.</p>';
+                    return;
+                }
+                d = JSON.parse(raw);
+            }
+
+            const fmt = (val) => val || '—';
+            const fmtDate = (iso) => {
+                if (!iso) return '—';
+                try { return new Date(iso).toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' }); }
+                catch(e) { return iso; }
+            };
+            const fmtCurrency = (n) => {
+                const amt = parseFloat(n) || 0;
+                return '₹' + amt.toLocaleString('en-IN', { minimumFractionDigits: 0 });
+            };
+
+            document.getElementById('ref-value').textContent  = fmt(d.booking_ref || d.id);
+            document.getElementById('receipt-date').textContent = 'Issued: ' + fmtDate(d.paid_at || new Date().toISOString());
+            document.getElementById('r-name').textContent     = fmt(d.name);
+            document.getElementById('r-email').textContent    = fmt(d.email);
+            document.getElementById('r-mobile').textContent   = fmt(d.mobile);
+            document.getElementById('r-dest').textContent     = fmt(d.dest || d.destination);
+            document.getElementById('r-date').textContent     = fmtDate(d.date || d.travel_date);
+            document.getElementById('r-travelers').textContent = `${d.adults || 1} Adult(s), ${d.children || 0} Child(ren)`;
+            const modeMap = { flight: '✈ Flight', train: '🚆 Train', car: '🚗 Car / Bus' };
+            document.getElementById('r-mode').textContent     = modeMap[d.mode] || fmt(d.mode);
+            document.getElementById('r-offer').textContent    = fmt(d.offer);
+            document.getElementById('r-amount').textContent   = fmtCurrency(d.total || d.total_amount);
+            document.getElementById('r-txn').textContent      = 'Txn ID: ' + fmt(d.payment_id);
+            const methodLabel = { STRIPE: '💳 Stripe', CARD: '💳 Card', UPI: '📱 UPI', CASH: '💵 Cash', NET: '🏦 Net Banking' };
+            document.getElementById('r-method').textContent   = methodLabel[(d.paymentMethod || d.payment_method || '').toUpperCase()] || fmt(d.paymentMethod || d.payment_method);
+
+            // Passengers
+            if (Array.isArray(d.passengers) && d.passengers.length > 1) {
+                const section = document.getElementById('r-passengers-section');
+                section.style.display = 'block';
+                document.getElementById('r-passengers').innerHTML = d.passengers.map((p, i) => `<span>${i + 1}. ${p}</span>`).join('<br>');
+            }
+        });
+    </script>
+</body>
+
+</html>

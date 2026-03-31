@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Global Horizons Travel - Project Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        .doc-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-section {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 2rem;
+        }
+
+        .doc-section h2 {
+            color: var(--primary);
+            border-left: 5px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .print-btn-fixed {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 2000;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .print-btn-fixed:hover {
+            transform: scale(1.1);
+        }
+
+        .flow-diagram {
+            background: #f0f7ff;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-num {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        @media print {
+
+            .navbar,
+            footer,
+            .print-btn-fixed {
+                display: none;
+            }
+
+            .doc-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            pre {
+                background: #f9f9f9 !important;
+                color: #333 !important;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+            <a href="documentation.html" class="active">Docs</a>
+        </div>
+    </nav>
+
+    <button class="print-btn-fixed">🖨️ Save as PDF</button>
+    <script src="js/main.js"></script>
+
+    <main class="doc-container">
+        <header style="text-align: center; margin-bottom: 4rem;">
+            <h1 style="font-size: 2.5rem; color: var(--primary);">Global Horizons Travel</h1>
+            <p style="color: var(--light-text); font-size: 1.2rem;">Complete Project Technical Documentation & Source
+                Code</p>
+            <div style="margin-top: 1.5rem; color: var(--accent); font-weight: 700;">Author: Siddharth Pawar & Athrav
+                Nikam</div>
+        </header>
+
+        <!-- TICKET GENERATION LOGIC -->
+        <section class="doc-section">
+            <h2>1. Ticket Generation Workflow</h2>
+            <p>This project uses a <strong>client-side state management</strong> approach to handle bookings without a
+                backend server.</p>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-num">1</div>
+                    <div><strong>Data Entry:</strong> User fills <code>booking.html</code> form. JavaScript listens for
+                        the 'submit' event.</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">2</div>
+                    <div><strong>Dynamic Inputs:</strong> As 'Number of Travelers' changes, JS creates name fields for
+                        each passenger.</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">3</div>
+                    <div><strong>Price Engine:</strong> Real-time calculation based on Destination Price × Travelers +
+                        Car Surcharges.</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">4</div>
+                    <div><strong>Storage:</strong> Data is bundled into a JSON object and saved to
+                        <code>localStorage.setItem('latestBooking', ...)</code>.
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-num">5</div>
+                    <div><strong>Rendering:</strong> <code>ticket.html</code> reads the data. If 'Flight', it loops
+                        through names to create multiple tickets. If 'Car', it generates one Group Pass with driver
+                        details.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HTML SOURCE CODE -->
+        <section class="doc-section">
+            <h2>2. HTML Code Details</h2>
+
+            <h3>index.html (Home Page)</h3>
+            <pre>
+&lt;!-- Main Hero and Featured Section --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Global Horizons Travel&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav class="navbar"&gt;...&lt;/nav&gt;
+    &lt;div class="hero"&gt;
+        &lt;h1&gt;Explore Over 25+ Global Destinations&lt;/h1&gt;
+    &lt;/div&gt;
+    &lt;!-- Featured cards and styles preview --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </pre>
+
+            <h3>booking.html (The Core Engine)</h3>
+            <p>Contains the interactive form and calculation logic.</p>
+            <pre>
+&lt;!-- Form structure and JavaScript for LocalStorage --&gt;
+&lt;form id="bookingForm"&gt;
+    ...
+&lt;/form&gt;
+
+&lt;script&gt;
+    // Captures form data and redirects
+    localStorage.setItem('latestBooking', JSON.stringify(bookingData));
+    window.location.href = 'ticket.html';
+&lt;/script&gt;
+            </pre>
+
+            <h3>ticket.html (Boarding Pass Generator)</h3>
+            <p>Converts stored data into visual boarding passes.</p>
+            <pre>
+&lt;!-- Dynamic Ticket Container --&gt;
+&lt;div id="ticket-list"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    const bookingData = JSON.parse(localStorage.getItem('latestBooking'));
+    // Logic to generate individual passes for each traveler
+    bookingData.travelers.forEach((name, index) => {
+        // Appends ticket HTML dynamically
+    });
+&lt;/script&gt;
+            </pre>
+        </section>
+
+        <!-- CSS SOURCE CODE -->
+        <section class="doc-section">
+            <h2>3. CSS Design System</h2>
+            <p>The project follows a <strong>Premium Modern UI</strong> style using variables for consistency.</p>
+            <pre>
+/* ---------- Global Variables ---------- */
+:root {
+    --primary: #022c43;
+    --accent: #f39c12;
+    --secondary: #0a3d62;
+    --text: #2c3e50;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Components ---------- */
+.navbar {
+    background: rgba(2, 44, 67, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+}
+
+.card {
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.ticket-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    page-break-after: always; /* For PDF Printing */
+}
+            </pre>
+        </section>
+
+        <section class="doc-section" style="border: none;">
+            <h2>4. Printing Instructions</h2>
+            <p>To generate the official PDF documentation:</p>
+            <ol style="margin-left: 1.5rem; line-height: 2;">
+                <li>Click the <strong>"Save as PDF"</strong> button on this page.</li>
+                <li>In the print window, change <strong>"Destination"</strong> to <strong>"Save as PDF"</strong>.</li>
+                <li>Ensure <strong>"Background Graphics"</strong> is checked in More Settings.</li>
+                <li>Click <strong>Save</strong>.</li>
+            </ol>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: #999; font-size: 0.8rem;">
+            Generated for Global Horizons Travel Project Submission - 2025
+        </footer>
+    </main>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

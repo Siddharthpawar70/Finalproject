@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --profile-bg: #f4f7f6;
+            --sidebar-width: 280px;
+            --accent-gold: #d4af37;
+            --deep-blue: #0a3d62;
+        }
+
+        body {
+            background-color: var(--profile-bg);
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .profile-wrapper {
+            display: flex;
+            min-height: calc(100vh - 80px); /* 80px navbar height */
+            margin-top: 80px;
+        }
+
+        /* SIDEBAR */
+        .profile-sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #eee;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: calc(100vh - 80px);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #f9f9f9;
+            margin-bottom: 1rem;
+        }
+
+        .profile-pic-container {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--deep-blue), #3d5a80);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 15px rgba(10, 61, 98, 0.2);
+            border: 4px solid #fff;
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--deep-blue);
+        }
+
+        .sidebar-header p {
+            margin: 0.3rem 0 0;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            color: #555;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fa;
+            color: var(--deep-blue);
+        }
+
+        .nav-item.active {
+            background: #f0f7ff;
+            color: var(--deep-blue);
+            border-left-color: var(--deep-blue);
+        }
+
+        /* MAIN CONTENT */
+        .profile-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 3rem;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeInSection 0.5s ease-out forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInSection {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--deep-blue);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* CARDS & GRIDS */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.03);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* DASHBOARD OVERVIEW */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .stat-info h4 { margin: 0; color: #888; font-size: 0.8rem; text-transform: uppercase; }
+        .stat-info p { margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--deep-blue); }
+
+        /* FORM STYLING */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-p {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group-p label {
+            font-weight: 700;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        .form-group-p input, .form-group-p select {
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-group-p input:focus {
+            outline: none;
+            border-color: var(--deep-blue);
+            box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.1);
+        }
+
+        .form-group-p input[readonly] {
+            background: #f9f9f9;
+            cursor: not-allowed;
+        }
+
+        .btn-update {
+            background: var(--deep-blue);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(10, 61, 98, 0.3);
+        }
+
+        /* BOOKINGS LIST */
+        .booking-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 5px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .booking-item:hover {
+            transform: scale(1.01);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .booking-main { display: flex; align-items: center; gap: 1.5rem; }
+        .booking-icon { background: #f0f7ff; color: var(--deep-blue); width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .booking-info h4 { margin: 0; font-size: 1.1rem; color: #333; }
+        .booking-info p { margin: 0; color: #888; font-size: 0.85rem; }
+
+        .booking-status { font-weight: 700; text-transform: uppercase; font-size: 0.75rem; padding: 4px 10px; border-radius: 5px; }
+        .status-confirmed { background: #e8f5e9; color: #2e7d32; }
+        .status-pending { background: #fff3e0; color: #ef6c00; }
+        .status-cancelled { background: #ffebee; color: #c62828; }
+
+        .booking-actions { display: flex; gap: 0.8rem; }
+        .btn-sm { padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; border: 1px solid #ddd; cursor: pointer; text-decoration: none; color: #333; transition: all 0.3s; }
+        .btn-sm.cancel { border-color: #ffcdd2; color: #c62828; }
+        .btn-sm.cancel:hover { background: #ffebee; }
+
+        /* NOTIFICATIONS */
+        .notif-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s;
+        }
+
+        .notif-item:hover { background: #fafafa; }
+        .notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #eee; flex-shrink: 0; }
+        .notif-content h5 { margin: 0 0 0.3rem; font-size: 1rem; color: #333; }
+        .notif-content p { margin: 0; font-size: 0.9rem; color: #666; line-height: 1.4; }
+        .notif-time { color: #aaa; font-size: 0.75rem; display: block; margin-top: 0.5rem; }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .close-btn { position: absolute; right: 20px; top: 20px; font-size: 1.5rem; cursor: pointer; color: #888; }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            z-index: 2000;
+            display: none;
+            animation: slideInUp 0.3s ease;
+        }
+        @keyframes slideInUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        @media (max-width: 992px) {
+            .profile-sidebar { width: 80px; }
+            .sidebar-header { display: none; }
+            .nav-item span { display: none; }
+            .nav-item { justify-content: center; padding: 1.5rem 0; }
+            .nav-item i { margin-right: 0; font-size: 1.3rem; }
+            .profile-content { margin-left: 80px; padding: 1.5rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="packages.html">Packages</a>
+            <a href="booking.html">Book now</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="profile.html" class="active">My Profile</a>
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-wrapper">
+        <aside class="profile-sidebar">
+            <div class="sidebar-header">
+                <div id="sidebar-initials" class="profile-pic-container">U</div>
+                <h3 id="sidebar-name">User Name</h3>
+                <p id="sidebar-rank">Verified Member</p>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-target="dashboard">
+                    <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-target="personal-info">
+                    <i class="fas fa-user-edit"></i> <span>Personal Info</span>
+                </div>
+                <div class="nav-item" data-target="my-bookings">
+                    <i class="fas fa-suitcase"></i> <span>My Bookings</span>
+                </div>
+                <div class="nav-item" data-target="notifications">
+                    <i class="fas fa-bell"></i> <span>Notifications</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer" style="padding: 1rem 2rem;">
+                <a href="#" class="nav-item" id="sidebar-logout" style="padding: 1rem 0; border: none;">
+                    <i class="fas fa-power-off" style="color: #e74c3c;"></i> <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="profile-content">
+            
+            <!-- SECTION: DASHBOARD -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2>Hello, <span id="dash-greeting-name">Traveler</span>!</h2>
+                    <p>Welcome back to your travel dashboard. Ready for the next adventure?</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;"><i class="fas fa-suitcase-rolling"></i></div>
+                        <div class="stat-info">
+                            <h4>Total Trips</h4>
+                            <p id="stat-total-trips">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e8f5e9; color: #2e7d32;"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h4>Active</h4>
+                            <p id="stat-active-trips">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f3e5f5; color: #7b1fa2;"><i class="fas fa-award"></i></div>
+                        <div class="stat-info">
+                            <h4>Refunds</h4>
+                            <p id="stat-refunds">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <h3 style="margin-top: 0; color: var(--deep-blue);">Recent Activity</h3>
+                    <div id="recent-activity-list" style="color: #666;">
+                        <!-- Injected via JS -->
+                        No recent activity recorded.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PERSONAL INFO -->
+            <section id="personal-info" class="content-section">
+                <div class="section-header">
+                    <h2>Personal Information</h2>
+                    <p>Manage your account details and contact preferences.</p>
+                </div>
+
+                <div class="profile-card">
+                    <form id="edit-profile-form">
+                        <div class="form-row">
+                            <div class="form-group-p">
+                                <label>Full Name</label>
+                                <input type="text" id="edit-name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group-p">
+                                <label>Email Address (Account ID)</label>
+                                <input type="email" id="edit-email" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-p">
+                                <label>Mobile Number</label>
+                                <input type="tel" id="edit-phone" placeholder="+91 9876543210" required>
+                            </div>
+                            <div class="form-group-p">
+                                <label>Country</label>
+                                <input type="text" id="edit-country" placeholder="e.g. India">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group-p">
+                                <label>City</label>
+                                <input type="text" id="edit-city" placeholder="e.g. Mumbai">
+                            </div>
+                            <div class="form-group-p">
+                                <label>Language Preference</label>
+                                <select id="edit-lang">
+                                    <option>English</option>
+                                    <option>Hindi</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <button type="submit" class="btn-update">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="profile-card" style="border-left: 5px solid #e74c3c;">
+                    <h3 style="color: #e74c3c;">Account Security</h3>
+                    <p style="color: #666; font-size: 0.9rem;">To change your password, please use the <strong>Forgot Password</strong> link on the login page or contact support.</p>
+                </div>
+            </section>
+
+            <!-- SECTION: MY BOOKINGS -->
+            <section id="my-bookings" class="content-section">
+                <div class="section-header">
+                    <h2>My Bookings</h2>
+                    <p>Track your upcoming and past adventures with us.</p>
+                </div>
+
+                <div id="user-bookings-list">
+                    <!-- Injected via JS -->
+                </div>
+            </section>
+
+            <!-- SECTION: NOTIFICATIONS -->
+            <section id="notifications" class="content-section">
+                <div class="section-header">
+                    <h2>Notifications</h2>
+                    <p>Stay updated with our latest offers and your trip status.</p>
+                </div>
+
+                <div class="profile-card" style="padding: 0;">
+                    <div id="notifications-list">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- CANCELLATION MODAL -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 style="color: #c62828; margin-top: 0;"><i class="fas fa-exclamation-triangle"></i> Cancel Journey?</h2>
+            <p style="color: #666;">We're sad to see you go. Below is the summary of your cancellation:</p>
+            
+            <div id="cancel-preview" style="background: #f9f9f9; padding: 1rem; border-radius: 10px; margin: 1.5rem 0;">
+                <p><strong>Package:</strong> <span id="cancel-pkg-name">-</span></p>
+                <p><strong>Booking ID:</strong> <span id="cancel-id">-</span></p>
+                <p><strong>Expected Refund:</strong> ₹ <span id="cancel-refund-amount">0</span></p>
+            </div>
+
+            <div class="form-group-p" style="margin-bottom: 2rem;">
+                <label>Reason for cancellation</label>
+                <select id="cancel-reason-input">
+                    <option>Plan Changed</option>
+                    <option>Found better deal</option>
+                    <option>Health Issues</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button id="finalConfirmCancel" class="btn-update" style="background: #c62828; flex: 1;">Proceed with Cancellation</button>
+                <button onclick="document.getElementById('cancelModal').style.display='none'" class="btn-update" style="background: #eee; color: #444; flex: 1; border: 1px solid #ddd;">No, Keep it</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="global-toast" class="toast">Info message here</div>
+
+    <div id="chatbot-container"></div><!-- Chatbot integration -->
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2025 Global Horizons Travel – Explore Beyond Borders</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

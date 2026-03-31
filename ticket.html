@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Tickets - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+    <style>
+        .ticket-list {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .ticket-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            border: 1px solid #ddd;
+            margin-bottom: 3rem;
+            page-break-after: always;
+        }
+
+        .ticket-main {
+            padding: 1.5rem;
+            flex: 3;
+            border-right: 2px dashed #eee;
+            position: relative;
+        }
+
+        .ticket-stub {
+            padding: 1.5rem;
+            flex: 1;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .ticket-type-label {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0a3d62;
+            color: #fff;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .ticket-header h2 {
+            margin: 0;
+            color: #0a3d62;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #999;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .barcode {
+            margin-top: 1.5rem;
+            height: 50px;
+            width: 100%;
+            background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 4px);
+        }
+
+        /* Car Specific Styles */
+        .car-info-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: #f0f7ff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .car-img {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #fff;
+        }
+
+        .driver-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0a3d62;
+        }
+
+        @media screen and (max-width: 600px) {
+            .ticket-card {
+                flex-direction: column;
+            }
+
+            .ticket-main {
+                border-right: none;
+                border-bottom: 2px dashed #eee;
+            }
+        }
+
+        @media print {
+
+            .navbar,
+            footer,
+            .print-btn,
+            .success-msg {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .ticket-card {
+                box-shadow: none;
+                border: 2px solid #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html" class="active"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="no-booking" style="text-align:center; padding: 5rem 0; display:none;">
+            <h2>No Active Booking Found</h2>
+            <p>Please complete a booking first.</p>
+            <a href="booking.html" class="btn primary"
+                style="background: #0a3d62; color: #fff; padding: 0.8rem 1.5rem; border-radius: 5px; display: inline-block; margin-top: 1rem;">Go
+                to Booking</a>
+        </div>
+
+        <div id="ticket-area">
+            <div class="success-msg"
+                style="background: #e1f5fe; color: #01579b; padding: 1.5rem; border-radius: 12px; margin: 2rem auto; max-width: 800px; text-align: center; border: 1px solid #b3e5fc; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="font-size: 1.2rem; margin-bottom: 0.5rem;"><strong>🎉 Booking Confirmed!</strong></div>
+                <p style="margin-bottom: 0.5rem;">Your tickets are ready. A confirmation email and SMS have been sent to
+                    your registered contacts.</p>
+                <div style="display:flex; justify-content:center; gap:20px; font-size: 0.8rem; color: #555;">
+                    <span><i class="fas fa-envelope"></i> Email: <span id="conf-email">demo@example.com</span></span>
+                    <span><i class="fas fa-sms"></i> SMS: <span id="conf-mobile">+91 9XXXX X890</span></span>
+                </div>
+            </div>
+
+            <div id="ticket-list" class="ticket-list">
+                <!-- Individual Tickets will be injected here -->
+            </div>
+
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <button onclick="window.print()" class="print-btn"
+                    style="background:#0a3d62; color:#fff; padding:1rem 3rem; border:none; border-radius:8px; cursor:pointer; font-weight:700; font-size: 1.1rem;">Print
+                    All Tickets</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/ticket.js"></script>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2025 Global Horizons Travel – Explore Beyond Borders</p>
+        </div>
+    </footer>
+
+    <script src="js/currency.js?v=2"></script>
+</body>
+
+
+</html>

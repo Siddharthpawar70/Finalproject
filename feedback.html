@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback & Reviews - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="booking.html">Booking</a>
+            <a href="ticket.html">Tickets</a>
+            <a href="contact.html">Contact</a>
+            <a href="feedback.html">Feedback</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header feedback-hero">
+        <div class="container">
+            <h1>Traveler Voices</h1>
+            <p>Your experiences inspire our journey. Share your story with us.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="feedback-grid">
+            <!-- Feedback Form -->
+            <section class="feedback-form-section">
+                <div class="form-card">
+                    <h2>Send Us Your Feedback</h2>
+                    <p class="section-desc">We value your opinion and strive to improve our services based on your
+                        feedback.</p>
+                    <form action="#" method="post" class="feedback-form" id="mainFeedbackForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fb-name">Full Name</label>
+                                <input type="text" id="fb-name" name="name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fb-email">Email Address</label>
+                                <input type="email" id="fb-email" name="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rate Your Experience</label>
+                            <div class="star-rating">
+                                <input type="radio" name="rating" id="star5" value="5" checked><label for="star5"
+                                    title="Excellent - 5 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star4" value="4"><label for="star4"
+                                    title="Very Good - 4 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star3" value="3"><label for="star3"
+                                    title="Average - 3 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star2" value="2"><label for="star2"
+                                    title="Poor - 2 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" name="rating" id="star1" value="1"><label for="star1"
+                                    title="Terrible - 1 star"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fb-message">Your Review</label>
+                            <textarea id="fb-message" name="message" rows="5"
+                                placeholder="Tell us about your amazing journey..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn primary btn-block">Share Your Experience</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Customer Reviews -->
+            <section class="reviews-section">
+                <div class="section-title-wrapper">
+                    <h2>What Our Travelers Say</h2>
+                    <div class="overall-rating">
+                        <span class="rating-number">5.0</span>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="total-reviews">(1,250+ Reviews)</span>
+                    </div>
+                </div>
+
+                <div class="review-cards-container">
+                    <div class="premium-review-card">
+                        <div class="review-badge">Featured</div>
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Michael Smith">
+                            <div class="user-info">
+                                <h3>Michael Smith</h3>
+                                <span class="traveller-type">Business Traveller</span>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <p>"Our trip to Paris was absolutely magical. Global Horizons took care of every detail,
+                                from the flight to the cozy hotel near the Eiffel Tower. Highly Recommended!"</p>
+                            <span class="review-date">Oct 12, 2025</span>
+                        </div>
+                    </div>
+
+                    <div class="premium-review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="Sarah Johnson">
+                            <div class="user-info">
+                                <h3>Sarah Johnson</h3>
+                                <span class="traveller-type">Family Trip</span>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                            <p>"The Dubai Luxury Tour was breathtaking. The coordination was seamless. Only wish the
+                                desert safari was a bit longer, but otherwise perfect!"</p>
+                            <span class="review-date">Sep 28, 2025</span>
+                        </div>
+                    </div>
+
+                    <div class="premium-review-card">
+                        <div class="review-user">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2" alt="Robert Brown">
+                            <div class="user-info">
+                                <h3>Robert Brown</h3>
+                                <span class="traveller-type">Solo Explorer</span>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <p>"Great value for money! The cultural tour in Japan was eye-opening. The guides were very
+                                knowledgeable and friendly."</p>
+                            <span class="review-date">Aug 15, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <section class="commitment-section container">
+        <div class="commitment-content">
+            <div class="commitment-text">
+                <h2>Our Commitment to Quality</h2>
+                <p>At Global Horizons Travel, we don't just sell trips; we craft memories. Every piece of feedback we
+                    receive is carefully reviewed by our management team to ensure we continue to exceed your
+                    expectations.</p>
+                <div class="commitment-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Happy Travelers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15k+</span>
+                        <span class="stat-label">Trips Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="commitment-image">
+                <img src="images/destinations/commitment-bg.jpg" alt="Our Team">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 Global Horizons Travel – Explore Beyond Borders</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/feedback.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About - Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <header class="page-header">
+        <div class="container">
+            <h1>About Us & Our Team</h1>
+            <p>Our passion for travel drives your adventure.</p>
+        </div>
+    </header>
+    <section class="about container">
+        <div class="content">
+            <p>
+                Global Horizons Travel is an international travel agency dedicated to crafting unforgettable journeys
+                across the globe.
+                We specialize in luxury, adventure, cultural, and leisure travel experiences, offering personalized
+                itineraries,
+                visa assistance, and 24/7 support.
+            </p>
+            <p class="mt-4">
+                With a network spanning over <strong>30+ destinations</strong> worldwide, we bring you closer to the
+                world's most iconic landmarks and hidden gems.
+            </p>
+            <button id="show-assistant-btn" class="btn primary mt-4" style="padding: 1rem 2rem; font-weight: 700;">
+                <i class="fas fa-user-tie mr-2"></i> Meet Our Travel Assistants
+            </button>
+        </div>
+
+        <div class="team-section mt-5" id="assistant-section"
+            style="display: none; opacity: 0; transition: all 0.5s ease;">
+            <!-- International Guides -->
+            <h2 class="text-center">International Guides</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="images/workers/guide_intl_1.jpg" alt="Guide">
+                    <h4>Liam Andersson</h4>
+                    <p>International Guide</p>
+                    <span class="specialty">Europe Specialist</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_intl_2.jpg" alt="Guide">
+                    <h4>Yuki Sato</h4>
+                    <p>International Guide</p>
+                    <span class="specialty">Japan Culture</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_intl_3.jpg" alt="Guide">
+                    <h4>Marc Dubois</h4>
+                    <p>International Guide</p>
+                    <span class="specialty">French Riviera</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_intl_4.jpg" alt="Guide">
+                    <h4>Sofia Rossi</h4>
+                    <p>International Guide</p>
+                    <span class="specialty">Italy Expert</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_intl_5.jpg" alt="Guide">
+                    <h4>Hans Müller</h4>
+                    <p>International Guide</p>
+                    <span class="specialty">Swiss Alps</span>
+                </div>
+            </div>
+
+            <!-- Indian Guides -->
+            <h2 class="text-center mt-5">Indian Guides</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="images/workers/guide_india_1.jpg" alt="Guide">
+                    <h4>Aarav Sharma</h4>
+                    <p>Indian Tour Guide</p>
+                    <span class="specialty">Himalayan Treks</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_india_2.jpg" alt="Guide">
+                    <h4>Priya Iyer</h4>
+                    <p>Indian Tour Guide</p>
+                    <span class="specialty">South India Culture</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_india_3.jpg" alt="Guide">
+                    <h4>Rohan Verma</h4>
+                    <p>Indian Tour Guide</p>
+                    <span class="specialty">Rajasthan Heritage</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_india_4.jpg" alt="Guide">
+                    <h4>Vikram Singh</h4>
+                    <p>Indian Tour Guide</p>
+                    <span class="specialty">Goa & Coastal</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/guide_india_5.jpg" alt="Guide">
+                    <h4>Ananya Das</h4>
+                    <p>Indian Tour Guide</p>
+                    <span class="specialty">Kerala Backwaters</span>
+                </div>
+            </div>
+
+            <!-- Tour Agents -->
+            <h2 class="text-center mt-5">Tour Agents</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="images/workers/agent_1.jpg" alt="Agent">
+                    <h4>Sarah Johnson</h4>
+                    <p>Tour Agent</p>
+                    <span class="specialty">Booking Manager</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/agent_2.jpg" alt="Agent">
+                    <h4>David Chen</h4>
+                    <p>Tour Agent</p>
+                    <span class="specialty">Package Designer</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/agent_3.jpg" alt="Agent">
+                    <h4>Michael Brown</h4>
+                    <p>Tour Agent</p>
+                    <span class="specialty">Client Relations</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/agent_4.jpg" alt="Agent">
+                    <h4>Elena Petrova</h4>
+                    <p>Tour Agent</p>
+                    <span class="specialty">Visa Specialist</span>
+                </div>
+                <div class="team-card">
+                    <img src="images/workers/agent_5.jpg" alt="Agent">
+                    <h4>James Wilson</h4>
+                    <p>Tour Agent</p>
+                    <span class="specialty">Operations Chief</span>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <footer>
+        © 2025 Global Horizons Travel – Explore Beyond Borders
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/about.js"></script>
+    <script src="js/travelAssistance.js"></script>
+    <script src="js/destinationData.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>

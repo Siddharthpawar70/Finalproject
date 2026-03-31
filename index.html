@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Global Horizons Travel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://kit.fontawesome.com/4f3f4212e0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/final_logo.png" alt="Global Horizon Tour" class="logo-img">
+            </a>
+        </div>
+        <div class="nav-links">
+                        <div class="localization-controls" style="display: flex; align-items: center; gap: 10px; margin-right: 15px;">
+                <select id="currency-switcher" class="currency-select" style="padding: 5px; height: 30px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; outline: none; font-size: 14px;">
+                    <option value="INR" style="color: black;">INR (₹)</option>
+                    <option value="USD" style="color: black;">USD ($)</option>
+                    <option value="EUR" style="color: black;">EUR (€)</option>
+                    <option value="GBP" style="color: black;">GBP (£)</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="dest-search" placeholder="Search destinations...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="packages.html">Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="booking-dropdown">
+                <button class="dropbtn">Book now <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="booking.html"><i class="fas fa-plus-circle"></i> New Booking</a>
+                    <a href="ticket.html"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                </div>
+            </div>
+            <a href="contact.html">Contact</a>
+            <div class="user-dropdown">
+                <button class="user-icon-btn"><i class="fas fa-user-circle"></i></button>
+                <div class="dropdown-content">
+                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url('images/destinations/slide1.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/destinations/slide2.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/destinations/slide3.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/destinations/slide4.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/destinations/slide5.jpg');"></div>
+        </div>
+        <div>
+            <h1 id="home-hero-title">Explore Over 150+ Global Destinations</h1>
+            <p>✈ Explore Beyond Borders – Your Journey, Our Passion 🌍</p>
+            <div style="margin-top: 2rem;">
+                <a href="destinations.html" class="btn primary"
+                    style="background:var(--accent); color:var(--primary); padding: 1rem 2rem; border-radius: 50px; font-weight: 700;">Explore
+                    Destinations</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            setInterval(nextSlide, 5000);
+        });
+    </script>
+
+    <!-- FEATURED DESTINATIONS -->
+    <section class="destinations container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+            <h2 style="margin-bottom: 0; text-align: left;">Featured Destinations</h2>
+            <a href="destinations.html" style="color: var(--accent); font-weight: 700;">View All 150+ →</a>
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="card"><img src="images/destinations/agra.jpg" alt="Agra">
+                <div class="content">
+                    <h3>Agra, India</h3>
+                    <p>The Iconic Taj Mahal & Heritage</p>
+                </div>
+            </div>
+            <div class="card"><img src="images/destinations/goa.jpg" alt="Goa">
+                <div class="content">
+                    <h3>Goa, India</h3>
+                    <p>Sun, Sand & Coastal Luxury</p>
+                </div>
+            </div>
+            <div class="card"><img src="images/destinations/kerala.jpg" alt="Kerala">
+                <div class="content">
+                    <h3>Kerala, India</h3>
+                    <p>Backwaters & Tropical Paradises</p>
+                </div>
+            </div>
+            <div class="card"><img src="images/destinations/kashmir.jpg" alt="Kashmir">
+                <div class="content">
+                    <h3>Kashmir, India</h3>
+                    <p>Heaven on Earth & Snow Mountains</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGES PREVIEW -->
+    <section class="packages container">
+        <h2 style="text-align: center; margin-bottom: 3rem;">Explore Travel Styles</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <div class="card package">
+                <div style="height: 200px; background: url('images/packages/honeymoon.jpg') center/cover;"></div>
+                <div class="content">
+                    <h3 style="color: #ff4d6d;">Honeymoon Bliss</h3>
+                    <p>Romantic escapes to the world's most intimate and scenic retreats.</p>
+                    <a href="packages.html"
+                        style="color: var(--primary); font-weight: 700; display: inline-block; margin-top: 1rem;">View
+                        Packages →</a>
+                </div>
+            </div>
+            <div class="card package">
+                <div style="height: 200px; background: url('images/packages/family/disney.jpg') center/cover;"></div>
+                <div class="content">
+                    <h3 style="color: #4cc9f0;">Family Getaways</h3>
+                    <p>Curated experiences designed for joy and safety for every family member.</p>
+                    <a href="packages.html"
+                        style="color: var(--primary); font-weight: 700; display: inline-block; margin-top: 1rem;">View
+                        Packages →</a>
+                </div>
+            </div>
+            <div class="card package">
+                <div style="height: 200px; background: url('images/packages/wildlife.png') center/cover;"></div>
+                <div class="content">
+                    <h3 style="color: #2b9348;">Wildlife Safari</h3>
+                    <p>Witness nature in its purest form across global wildlife sanctuaries.</p>
+                    <a href="packages.html"
+                        style="color: var(--primary); font-weight: 700; display: inline-block; margin-top: 1rem;">View
+                        Packages →</a>
+                </div>
+            </div>
+            <div class="card package">
+                <div style="height: 200px; background: url('images/packages/spiritual.png') center/cover;"></div>
+                <div class="content">
+                    <h3 style="color: #f9c74f;">Spiritual Journeys</h3>
+                    <p>Find inner peace at the world's most sacred and historic heritage sites.</p>
+                    <a href="packages.html"
+                        style="color: var(--primary); font-weight: 700; display: inline-block; margin-top: 1rem;">View
+                        Packages →</a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="packages.html" class="btn primary"
+                style="background: var(--primary); color: var(--white); padding: 1rem 2rem; border-radius: 50px; font-weight: 600;">Explore
+                All Package Styles</a>
+        </div>
+    </section>
+
+    <!-- ABOUT PREVIEW -->
+    <section class="about">
+        <div class="content container">
+            <h2>Why Glide with Us?</h2>
+            <p>
+                Global Horizons Travel offers unparalleled access to over 150 international and domestic destinations.
+                From visa assistance to bespoke itineraries, we handle the details so you can enjoy the journey.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact container">
+        <h2>Get in Touch</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div>
+                <p id="contact-phone">📞 1234566781</p>
+                <p id="contact-email">📧 contact@ghtravel.com</p>
+            </div>
+            <div>
+                <p>📍 Pune, India</p>
+                <p>🌍 24/7 Support</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer-copyright">
+        © 2025 Global Horizons Travel – Explore Beyond Borders
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/destinationData.js"></script>
+    <script src="js/chatbot_v2.js"></script>
+
+    <script src="js/currency.js"></script>
+</body>
+
+
+</html>
