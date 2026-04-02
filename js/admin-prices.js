@@ -34,10 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const encodeAttr = (value) => encodeURIComponent(String(value ?? ''));
 
+    const getGlobalArray = (key) => {
+        if (Array.isArray(window[key])) {
+            return window[key];
+        }
+        if (typeof globalThis !== 'undefined' && Array.isArray(globalThis[key])) {
+            return globalThis[key];
+        }
+        return [];
+    };
+
     const buildSeedInventory = () => {
         const seeded = [];
-        const destinations = Array.isArray(window.allDestinations) ? window.allDestinations : [];
-        const packages = Array.isArray(window.packageData) ? window.packageData : [];
+        const destinations = getGlobalArray('allDestinations');
+        const packages = getGlobalArray('packageData');
 
         destinations.forEach((item, idx) => {
             seeded.push({
