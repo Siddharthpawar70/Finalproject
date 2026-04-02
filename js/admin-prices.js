@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(items));
     };
 
+
+    const escapeHtml = (value) => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+    const encodeAttr = (value) => encodeURIComponent(String(value ?? ''));
+
     const buildSeedInventory = () => {
         const seeded = [];
         const destinations = Array.isArray(window.allDestinations) ? window.allDestinations : [];
@@ -138,22 +148,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             tr.innerHTML = `
                 <td>
-                    <strong>${item.name}</strong> 
-                    <span style="font-size: 0.7rem; color: #888; display: block;">ID: ${item.id}</span>
+                    <strong>${escapeHtml(item.name)}</strong> 
+                    <span style="font-size: 0.7rem; color: #888; display: block;">ID: ${escapeHtml(item.id)}</span>
                 </td>
                 <td>
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <span class="tag ${categoryClass}">${item.category || 'Uncategorized'}</span>
+                        <span class="tag ${categoryClass}">${escapeHtml(item.category || 'Uncategorized')}</span>
                         <span class="type-badge ${typeClass}">${isPackage ? 'PACKAGE' : 'DESTINATION'}</span>
                     </div>
                 </td>
                 <td class="admin-price">₹${parseFloat(item.price).toLocaleString('en-IN')}</td>
-                <td>${item.airport || '—'}</td>
-                <td>${item.railway || '—'}</td>
+                <td>${escapeHtml(item.airport || '—')}</td>
+                <td>${escapeHtml(item.railway || '—')}</td>
                 <td>
                     <div class="action-btns">
-                        <button class="action-btn edit-btn" onclick="editItem(${item.id}, '${item.type}')" title="Edit Item"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" onclick="deleteItem(${item.id}, '${item.type}')" title="Delete Item"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn edit-btn" onclick="editItem('${encodeAttr(item.id)}', '${encodeAttr(item.type)}')" title="Edit Item"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="deleteItem('${encodeAttr(item.id)}', '${encodeAttr(item.type)}')" title="Delete Item"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
@@ -273,7 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 5. Global Actions (Exposed to window for onclick)
-    window.editItem = (id, type) => {
+    window.editItem = (encodedId, encodedType) => {
+        const id = decodeURIComponent(encodedId);
+        const type = decodeURIComponent(encodedType);
         const item = inventory.find(i => i.id == id && i.type === type);
         if (!item) return;
 
@@ -307,7 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'block';
     };
 
-    window.deleteItem = async (id, type) => {
+    window.deleteItem = async (encodedId, encodedType) => {
+        const id = decodeURIComponent(encodedId);
+        const type = decodeURIComponent(encodedType);
         if (confirm('Are you sure you want to remove this item permanently from the database?')) {
             try {
                 let deletedViaBackend = false;

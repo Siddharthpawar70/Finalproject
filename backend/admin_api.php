@@ -8,13 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit();
 require_once __DIR__ . '/db.php';
 
 session_start();
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    echo json_encode(['status' => 'error', 'message' => 'Unauthorized access. Admin privileges required.']);
-    exit();
-}
 
 $input  = json_decode(file_get_contents('php://input'), true);
 $action = $input['action'] ?? $_GET['action'] ?? '';
+
+$readOnlyActions = ['get_users', 'stats', 'get_inventory'];
+if ((!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') && !in_array($action, $readOnlyActions, true)) {
+    echo json_encode(['status' => 'error', 'message' => 'Unauthorized access. Admin privileges required.']);
+    exit();
+}
 
 // -------------------------------------------------------
 // ACTION: get_all_users
