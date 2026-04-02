@@ -24,6 +24,46 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(items));
     };
 
+    const buildSeedInventory = () => {
+        const seeded = [];
+        const destinations = Array.isArray(window.allDestinations) ? window.allDestinations : [];
+        const packages = Array.isArray(window.packageData) ? window.packageData : [];
+
+        destinations.forEach((item, idx) => {
+            seeded.push({
+                id: item.id || `dest-${idx + 1}`,
+                type: 'destination',
+                name: item.name,
+                category: item.category || 'India',
+                price: item.price || 0,
+                airport: item.airport || '',
+                railway: item.railway || ''
+            });
+        });
+
+        packages.forEach((item, idx) => {
+            seeded.push({
+                id: item.id || `pkg-${idx + 1}`,
+                type: 'package',
+                name: item.name,
+                category: item.category || 'Package',
+                price: item.price || 0,
+                airport: item.destination || '',
+                railway: ''
+            });
+        });
+
+        const uniqueMap = new Map();
+        seeded.forEach(item => {
+            const key = `${(item.name || '').toLowerCase()}::${item.type}`;
+            if (!uniqueMap.has(key)) {
+                uniqueMap.set(key, item);
+            }
+        });
+
+        return Array.from(uniqueMap.values());
+    };
+
     async function fetchInventoryFromBackend() {
         const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php?action=get_inventory');
         if (!res.ok) {
@@ -45,6 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (backendError) {
                 console.warn('Inventory backend unavailable, using local fallback:', backendError);
                 inventory = getStoredInventory();
+                if (inventory.length === 0) {
+                    inventory = buildSeedInventory();
+                    if (inventory.length > 0) {
+                        saveStoredInventory(inventory);
+                    }
+                }
             }
             renderInventory();
         } catch (err) {

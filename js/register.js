@@ -18,6 +18,31 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('registeredUsers', JSON.stringify(users));
     };
 
+    const syncUserToLocalStorage = (payload, status = 'pending') => {
+        const users = getStoredUsers();
+        const emailLower = (payload.email || '').toLowerCase();
+        const exists = users.some(u => (u.email || '').toLowerCase() === emailLower);
+
+        if (exists) {
+            return;
+        }
+
+        users.push({
+            id: Date.now(),
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            country: payload.country,
+            city: payload.city,
+            password: payload.password,
+            role: 'user',
+            status,
+            created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        });
+
+        saveStoredUsers(users);
+    };
+
     async function registerViaBackend(payload) {
         const res = await fetch(window.API_BASE_URL + 'register_api.php', {
             method: 'POST',
@@ -108,6 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(data.message || (data.status === 'success' ? 'Registration successful!' : 'Registration failed.'));
 
                 if (data.status === 'success') {
+                    // Keep a local copy so admin/customer screens still work if backend becomes unavailable later.
+                    const normalizedStatus = (data.user && data.user.status) || 'pending';
+                    syncUserToLocalStorage(payload, normalizedStatus);
                     window.location.href = 'login.html';
                 } else {
                     submitBtn.disabled = false;
