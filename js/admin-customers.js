@@ -2,17 +2,48 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const customerListBody = document.getElementById('customer-list-body');
     const emptyState = document.getElementById('empty-customers');
+    const USERS_KEY = 'registeredUsers';
+
+    const getStoredUsers = () => {
+        try {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+            return Array.isArray(users) ? users : [];
+        } catch {
+            return [];
+        }
+    };
+
+    const saveStoredUsers = (users) => {
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    };
+
+    async function fetchCustomersFromBackend() {
+        const res = await fetch(window.API_BASE_URL + 'admin_api.php?action=get_users');
+        if (!res.ok) {
+            throw new Error(`Failed to fetch users (${res.status})`);
+        }
+        const data = await res.json();
+        if (data.status === 'error') {
+            throw new Error(data.message || 'Backend returned error while loading users.');
+        }
+        return data.users || [];
+    }
 
     async function renderCustomers() {
         customerListBody.innerHTML = '<tr><td colspan="7" style="padding:2rem; text-align:center; color:#999;">Loading customers...</td></tr>';
 
         try {
-            const res = await fetch(window.API_BASE_URL + 'admin_api.php?action=get_users');
-            const data = await res.json();
+            let users;
+            try {
+                users = await fetchCustomersFromBackend();
+            } catch (backendError) {
+                console.warn('Customers backend unavailable, using local fallback:', backendError);
+                users = getStoredUsers();
+            }
 
             customerListBody.innerHTML = '';
 
-            const users = (data.users || []).filter(u => u.role !== 'admin');
+            users = (users || []).filter(u => (u.role || 'user') !== 'admin');
 
             if (users.length === 0) {
                 emptyState.style.display = 'block';
@@ -48,22 +79,47 @@ document.addEventListener('DOMContentLoaded', async () => {
                 customerListBody.appendChild(tr);
             });
         } catch (err) {
-            customerListBody.innerHTML = '<tr><td colspan="7" style="padding:2rem; text-align:center; color:#e74c3c;">Failed to load customers. Is the PHP backend running?</td></tr>';
+            customerListBody.innerHTML = '<tr><td colspan="7" style="padding:2rem; text-align:center; color:#e67e22;">Unable to load from server. Please refresh and try again.</td></tr>';
         }
     }
 
     window.updateUserStatus = async (userId, newStatus) => {
         try {
-            const res = await fetch(window.API_BASE_URL + 'admin_api.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'update_status', userId, status: newStatus })
-            });
-            const data = await res.json();
-            alert(data.message || 'Status updated.');
+            let updatedViaBackend = false;
+            try {
+                const res = await fetch(window.API_BASE_URL + 'admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'update_status', userId, status: newStatus })
+                });
+                if (!res.ok) {
+                    throw new Error(`Failed to update user (${res.status})`);
+                }
+                const data = await res.json();
+                if (data.status === 'error') {
+                    throw new Error(data.message || 'Status update failed.');
+                }
+                updatedViaBackend = true;
+                alert(data.message || 'Status updated.');
+            } catch (backendError) {
+                console.warn('Status update backend unavailable, using local fallback:', backendError);
+            }
+
+            if (!updatedViaBackend) {
+                const users = getStoredUsers();
+                const nextUsers = users.map(user => {
+                    if (String(user.id) === String(userId)) {
+                        return { ...user, status: newStatus };
+                    }
+                    return user;
+                });
+                saveStoredUsers(nextUsers);
+                alert(`Status updated to ${newStatus} (local mode).`);
+            }
+
             renderCustomers();
         } catch (err) {
-            alert('Failed to update status. Server error.');
+            alert('Failed to update status right now. Please try again.');
         }
     };
 
