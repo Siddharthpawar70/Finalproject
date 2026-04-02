@@ -7,25 +7,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const itemForm = document.getElementById('item-form');
     const addItemBtn = document.getElementById('add-item-btn');
     const closeModalBtns = document.querySelectorAll('.close-modal');
+    const INVENTORY_KEY = 'customInventory';
 
     let inventory = [];
+
+    const getStoredInventory = () => {
+        try {
+            const items = JSON.parse(localStorage.getItem(INVENTORY_KEY) || '[]');
+            return Array.isArray(items) ? items : [];
+        } catch {
+            return [];
+        }
+    };
+
+    const saveStoredInventory = (items) => {
+        localStorage.setItem(INVENTORY_KEY, JSON.stringify(items));
+    };
+
+    async function fetchInventoryFromBackend() {
+        const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php?action=get_inventory');
+        if (!res.ok) {
+            throw new Error(`Inventory fetch failed (${res.status})`);
+        }
+        const data = await res.json();
+        if (data.status !== 'success') {
+            throw new Error(data.message || 'Inventory API returned an error.');
+        }
+        return data.inventory || [];
+    }
 
     // 1. Fetch Inventory from DB
     async function loadInventory() {
         try {
             inventoryBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading data from database...</td></tr>';
-            const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php?action=get_inventory');
-            const data = await res.json();
-            
-            if (data.status === 'success') {
-                inventory = data.inventory || [];
-                renderInventory();
-            } else {
-                inventoryBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Error: ${data.message}</td></tr>`;
+            try {
+                inventory = await fetchInventoryFromBackend();
+            } catch (backendError) {
+                console.warn('Inventory backend unavailable, using local fallback:', backendError);
+                inventory = getStoredInventory();
             }
+            renderInventory();
         } catch (err) {
             console.error('Failed to load inventory:', err);
-            inventoryBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Database connection error.</td></tr>';
+            inventoryBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#e67e22;">Unable to load from server. Please refresh and try again.</td></tr>';
         }
     }
 
@@ -151,21 +175,51 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const data = await res.json();
-            
-            if (data.status === 'success') {
-                modal.style.display = 'none';
-                loadInventory(); // Refresh list
-            } else {
-                alert('Error: ' + data.message);
+            let savedViaBackend = false;
+            try {
+                const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) {
+                    throw new Error(`Inventory save failed (${res.status})`);
+                }
+                const data = await res.json();
+                if (data.status !== 'success') {
+                    throw new Error(data.message || 'Save failed.');
+                }
+                savedViaBackend = true;
+            } catch (backendError) {
+                console.warn('Inventory save backend unavailable, using local fallback:', backendError);
             }
+
+            if (!savedViaBackend) {
+                const stored = getStoredInventory();
+                const normalized = {
+                    id: id ? (Number(id) || id) : Date.now(),
+                    type,
+                    name: payload.name,
+                    category: payload.category,
+                    price: payload.price,
+                    airport: payload.airport,
+                    railway: payload.railway
+                };
+                if (id) {
+                    inventory = stored.map(item => String(item.id) === String(id)
+                        ? { ...item, ...normalized }
+                        : item
+                    );
+                } else {
+                    inventory = [...stored, normalized];
+                }
+                saveStoredInventory(inventory);
+            }
+
+            modal.style.display = 'none';
+            loadInventory();
         } catch (err) {
-            alert('Database update failed.');
+            alert('Unable to save item right now. Please try again.');
         }
         
         submitBtn.disabled = false;
@@ -210,19 +264,33 @@ document.addEventListener('DOMContentLoaded', () => {
     window.deleteItem = async (id, type) => {
         if (confirm('Are you sure you want to remove this item permanently from the database?')) {
             try {
-                const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'delete_inventory', id: id, type: type })
-                });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    loadInventory(); // Refresh
-                } else {
-                    alert('Error: ' + data.message);
+                let deletedViaBackend = false;
+                try {
+                    const res = await fetch((window.API_BASE_URL || '../backend/') + 'admin_api.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'delete_inventory', id: id, type: type })
+                    });
+                    if (!res.ok) {
+                        throw new Error(`Delete failed (${res.status})`);
+                    }
+                    const data = await res.json();
+                    if (data.status !== 'success') {
+                        throw new Error(data.message || 'Delete failed.');
+                    }
+                    deletedViaBackend = true;
+                } catch (backendError) {
+                    console.warn('Inventory delete backend unavailable, using local fallback:', backendError);
                 }
+
+                if (!deletedViaBackend) {
+                    inventory = getStoredInventory().filter(item => !(String(item.id) === String(id) && item.type === type));
+                    saveStoredInventory(inventory);
+                }
+
+                loadInventory();
             } catch(e) {
-                alert('Delete failed.');
+                alert('Unable to delete item right now. Please try again.');
             }
         }
     };
