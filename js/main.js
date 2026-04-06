@@ -6,7 +6,8 @@ window.API_BASE_URL = (function() {
     const path  = window.location.pathname;
     // When served via file:// protocol, default to localhost with project folder
     if (proto === 'file:') {
-        return 'http://localhost/Global-Horizon-Tour-main/backend/';
+        const configured = localStorage.getItem('ght_api_base_url');
+        return configured || 'http://localhost/Finalproject/backend/';
     }
     // When served via a web server, resolve backend relative to project root
     const root = path.substring(0, path.lastIndexOf('/') + 1);
