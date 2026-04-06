@@ -10,10 +10,10 @@ require_once __DIR__ . '/db.php';
 session_start();
 
 $input  = json_decode(file_get_contents('php://input'), true);
+$input  = is_array($input) ? $input : [];
 $action = $input['action'] ?? $_GET['action'] ?? '';
 
-$readOnlyActions = ['get_users', 'stats', 'get_inventory'];
-if ((!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') && !in_array($action, $readOnlyActions, true)) {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized access. Admin privileges required.']);
     exit();
 }

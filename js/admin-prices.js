@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const INVENTORY_KEY = 'customInventory';
 
     let inventory = [];
+    let availableCategories = new Set();
 
     const getStoredInventory = () => {
         try {
@@ -24,6 +25,44 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(items));
     };
 
+    const syncCategoryFilterOptions = (items) => {
+        if (!categoryFilter) return;
+
+        const categories = new Set();
+        let hasPackages = false;
+
+        (items || []).forEach(item => {
+            const normalizedCategory = String(item.category || '').trim();
+            if (normalizedCategory) categories.add(normalizedCategory);
+            if ((item.type || '').toLowerCase() === 'package') hasPackages = true;
+        });
+
+        availableCategories = new Set(
+            Array.from(categories).map(c => c.toLowerCase())
+        );
+
+        const previousValue = categoryFilter.value || 'all';
+        categoryFilter.innerHTML = '<option value="all">All Items</option>';
+
+        if (hasPackages) {
+            categoryFilter.innerHTML += '<option value="Package">Special Packages</option>';
+        }
+
+        Array.from(categories)
+            .sort((a, b) => a.localeCompare(b))
+            .forEach(category => {
+                categoryFilter.innerHTML += `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`;
+            });
+
+        if (previousValue === 'Package' && hasPackages) {
+            categoryFilter.value = 'Package';
+        } else if (availableCategories.has(previousValue.toLowerCase())) {
+            categoryFilter.value = previousValue;
+        } else {
+            categoryFilter.value = 'all';
+        }
+    };
+
 
     const escapeHtml = (value) => String(value ?? '')
         .replace(/&/g, '&amp;')
@@ -35,6 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodeAttr = (value) => encodeURIComponent(String(value ?? ''));
 
     const getGlobalArray = (key) => {
+        // Handle top-level `const` declarations from classic scripts
+        // (e.g. destinationData.js / packageData.js), which may not be
+        // attached as properties on window/globalThis.
+        if (key === 'allDestinations' && typeof allDestinations !== 'undefined' && Array.isArray(allDestinations)) {
+            return allDestinations;
+        }
+        if (key === 'packageData' && typeof packageData !== 'undefined' && Array.isArray(packageData)) {
+            return packageData;
+        }
+
         if (Array.isArray(window[key])) {
             return window[key];
         }
@@ -96,6 +145,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return data.inventory || [];
     }
 
+    async function fetchPublicInventoryFallback() {
+        const base = (window.API_BASE_URL || '../backend/');
+        const [destRes, pkgRes] = await Promise.all([
+            fetch(base + 'packages_api.php?action=get_destinations'),
+            fetch(base + 'packages_api.php?action=get_packages')
+        ]);
+
+        const [destData, pkgData] = await Promise.all([destRes.json(), pkgRes.json()]);
+        const normalizedDestinations = (destData.destinations || []).map(item => ({
+            ...item,
+            type: 'destination'
+        }));
+        const normalizedPackages = (pkgData.packages || []).map(item => ({
+            ...item,
+            type: 'package',
+            airport: item.airport || item.destination || '',
+            railway: item.railway || ''
+        }));
+
+        return [...normalizedPackages, ...normalizedDestinations];
+    }
+
+    async function fetchDestinationsCatalogFallback() {
+        const res = await fetch('destinations.html');
+        if (!res.ok) {
+            throw new Error(`Catalog fetch failed (${res.status})`);
+        }
+
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const titleEls = doc.querySelectorAll('.details-modal .banner-text h1');
+
+        return Array.from(titleEls).map((el, idx) => {
+            const name = (el.textContent || '').trim();
+            const isIndia = /,\s*india$/i.test(name);
+            return {
+                id: `catalog-dest-${idx + 1}`,
+                type: 'destination',
+                name,
+                category: isIndia ? 'India' : 'International',
+                price: 0,
+                airport: '',
+                railway: ''
+            };
+        }).filter(item => !!item.name);
+    }
+
     // 1. Fetch Inventory from DB
     async function loadInventory() {
         try {
@@ -104,7 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 inventory = await fetchInventoryFromBackend();
             } catch (backendError) {
                 console.warn('Inventory backend unavailable, using local fallback:', backendError);
-                inventory = getStoredInventory();
+                try {
+                    inventory = await fetchPublicInventoryFallback();
+                } catch (publicError) {
+                    console.warn('Public inventory fallback unavailable, using local seed:', publicError);
+                    inventory = getStoredInventory();
+                }
                 if (inventory.length === 0) {
                     inventory = buildSeedInventory();
                     if (inventory.length > 0) {
@@ -112,6 +214,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
+
+            // Ensure the full user-panel destination catalog is visible in admin,
+            // even when DB inventory is partial.
+            try {
+                const catalogDestinations = await fetchDestinationsCatalogFallback();
+                const merged = new Map();
+                [...catalogDestinations, ...inventory].forEach(item => {
+                    const key = `${(item.name || '').toLowerCase()}::${item.type || 'destination'}`;
+                    // Preserve richer existing records (DB/public/local) when available
+                    if (!merged.has(key) || (merged.get(key).price || 0) === 0) {
+                        merged.set(key, item);
+                    }
+                });
+                inventory = Array.from(merged.values());
+            } catch (catalogError) {
+                console.warn('Destination catalog fallback unavailable:', catalogError);
+            }
+
+            syncCategoryFilterOptions(inventory);
             renderInventory();
         } catch (err) {
             console.error('Failed to load inventory:', err);
@@ -134,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // "Special Packages" filter (by type)
                 matchesCategory = item.type === 'package';
             } else if (categoryVal !== 'all') {
-                // Specific category filter (e.g. India, honeymoon, etc.)
+                // Specific category filter generated from actual data
                 matchesCategory = (item.category || '').toLowerCase() === categoryVal.toLowerCase();
             }
             
