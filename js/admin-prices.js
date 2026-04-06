@@ -35,6 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodeAttr = (value) => encodeURIComponent(String(value ?? ''));
 
     const getGlobalArray = (key) => {
+        // Handle top-level `const` declarations from classic scripts
+        // (e.g. destinationData.js / packageData.js), which may not be
+        // attached as properties on window/globalThis.
+        if (key === 'allDestinations' && typeof allDestinations !== 'undefined' && Array.isArray(allDestinations)) {
+            return allDestinations;
+        }
+        if (key === 'packageData' && typeof packageData !== 'undefined' && Array.isArray(packageData)) {
+            return packageData;
+        }
+
         if (Array.isArray(window[key])) {
             return window[key];
         }
@@ -96,6 +106,28 @@ document.addEventListener('DOMContentLoaded', () => {
         return data.inventory || [];
     }
 
+    async function fetchPublicInventoryFallback() {
+        const base = (window.API_BASE_URL || '../backend/');
+        const [destRes, pkgRes] = await Promise.all([
+            fetch(base + 'packages_api.php?action=get_destinations'),
+            fetch(base + 'packages_api.php?action=get_packages')
+        ]);
+
+        const [destData, pkgData] = await Promise.all([destRes.json(), pkgRes.json()]);
+        const normalizedDestinations = (destData.destinations || []).map(item => ({
+            ...item,
+            type: 'destination'
+        }));
+        const normalizedPackages = (pkgData.packages || []).map(item => ({
+            ...item,
+            type: 'package',
+            airport: item.airport || item.destination || '',
+            railway: item.railway || ''
+        }));
+
+        return [...normalizedPackages, ...normalizedDestinations];
+    }
+
     // 1. Fetch Inventory from DB
     async function loadInventory() {
         try {
@@ -104,7 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 inventory = await fetchInventoryFromBackend();
             } catch (backendError) {
                 console.warn('Inventory backend unavailable, using local fallback:', backendError);
-                inventory = getStoredInventory();
+                try {
+                    inventory = await fetchPublicInventoryFallback();
+                } catch (publicError) {
+                    console.warn('Public inventory fallback unavailable, using local seed:', publicError);
+                    inventory = getStoredInventory();
+                }
                 if (inventory.length === 0) {
                     inventory = buildSeedInventory();
                     if (inventory.length > 0) {
