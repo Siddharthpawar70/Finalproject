@@ -167,6 +167,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return [...normalizedPackages, ...normalizedDestinations];
     }
 
+    async function fetchDestinationsCatalogFallback() {
+        const res = await fetch('destinations.html');
+        if (!res.ok) {
+            throw new Error(`Catalog fetch failed (${res.status})`);
+        }
+
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const titleEls = doc.querySelectorAll('.details-modal .banner-text h1');
+
+        return Array.from(titleEls).map((el, idx) => {
+            const name = (el.textContent || '').trim();
+            const isIndia = /,\s*india$/i.test(name);
+            return {
+                id: `catalog-dest-${idx + 1}`,
+                type: 'destination',
+                name,
+                category: isIndia ? 'India' : 'International',
+                price: 0,
+                airport: '',
+                railway: ''
+            };
+        }).filter(item => !!item.name);
+    }
+
     // 1. Fetch Inventory from DB
     async function loadInventory() {
         try {
@@ -188,6 +214,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
+
+            // Ensure the full user-panel destination catalog is visible in admin,
+            // even when DB inventory is partial.
+            try {
+                const catalogDestinations = await fetchDestinationsCatalogFallback();
+                const merged = new Map();
+                [...catalogDestinations, ...inventory].forEach(item => {
+                    const key = `${(item.name || '').toLowerCase()}::${item.type || 'destination'}`;
+                    // Preserve richer existing records (DB/public/local) when available
+                    if (!merged.has(key) || (merged.get(key).price || 0) === 0) {
+                        merged.set(key, item);
+                    }
+                });
+                inventory = Array.from(merged.values());
+            } catch (catalogError) {
+                console.warn('Destination catalog fallback unavailable:', catalogError);
+            }
+
             syncCategoryFilterOptions(inventory);
             renderInventory();
         } catch (err) {
