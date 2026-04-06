@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const INVENTORY_KEY = 'customInventory';
 
     let inventory = [];
+    let availableCategories = new Set();
 
     const getStoredInventory = () => {
         try {
@@ -22,6 +23,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveStoredInventory = (items) => {
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(items));
+    };
+
+    const syncCategoryFilterOptions = (items) => {
+        if (!categoryFilter) return;
+
+        const categories = new Set();
+        let hasPackages = false;
+
+        (items || []).forEach(item => {
+            const normalizedCategory = String(item.category || '').trim();
+            if (normalizedCategory) categories.add(normalizedCategory);
+            if ((item.type || '').toLowerCase() === 'package') hasPackages = true;
+        });
+
+        availableCategories = new Set(
+            Array.from(categories).map(c => c.toLowerCase())
+        );
+
+        const previousValue = categoryFilter.value || 'all';
+        categoryFilter.innerHTML = '<option value="all">All Items</option>';
+
+        if (hasPackages) {
+            categoryFilter.innerHTML += '<option value="Package">Special Packages</option>';
+        }
+
+        Array.from(categories)
+            .sort((a, b) => a.localeCompare(b))
+            .forEach(category => {
+                categoryFilter.innerHTML += `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`;
+            });
+
+        if (previousValue === 'Package' && hasPackages) {
+            categoryFilter.value = 'Package';
+        } else if (availableCategories.has(previousValue.toLowerCase())) {
+            categoryFilter.value = previousValue;
+        } else {
+            categoryFilter.value = 'all';
+        }
     };
 
 
@@ -149,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
+            syncCategoryFilterOptions(inventory);
             renderInventory();
         } catch (err) {
             console.error('Failed to load inventory:', err);
@@ -171,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // "Special Packages" filter (by type)
                 matchesCategory = item.type === 'package';
             } else if (categoryVal !== 'all') {
-                // Specific category filter (e.g. India, honeymoon, etc.)
+                // Specific category filter generated from actual data
                 matchesCategory = (item.category || '').toLowerCase() === categoryVal.toLowerCase();
             }
             
